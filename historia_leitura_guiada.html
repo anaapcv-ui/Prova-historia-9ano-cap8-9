@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leitura Guiada — História 9º ano (Cap. 8 e 9)</title>
+<style>
+  :root{
+    --bg:#141017; --panel:#1d1822; --panel2:#171320;
+    --line:#352a3f; --txt:#f3ecdd; --muted:#b6a9bd;
+    --red:#d4242e; --red2:#9c1118; --redbg:#2a0f12; --cream:#f4e4c1;
+    --gold:#e3b94a; --gold2:#c89b3c; --teal:#16243a; --deco:#0f1a2b;
+    --yellow:#ffd86b; --warn:#ff6b6b; --green:#37c97a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:
+      radial-gradient(820px 480px at 8% -6%, #4a0d1255, transparent),
+      radial-gradient(820px 480px at 95% -4%, #3a2c0f66, transparent),
+      var(--bg);
+    color:var(--txt);font-family:'Segoe UI',system-ui,Arial,sans-serif;
+    font-size:18px;line-height:1.65}
+  .wrap{max-width:940px;margin:0 auto;padding:18px 16px 90px}
+
+  /* HEADER split: vermelho (Rússia) x dourado art déco (EUA) */
+  header{position:relative;overflow:hidden;border-radius:18px;border:1px solid #5a2a18;
+    margin-bottom:18px;box-shadow:0 12px 34px #00000066;display:flex;min-height:150px}
+  .h-side{flex:1;padding:24px;position:relative}
+  .h-ru{background:linear-gradient(135deg,#9c1118,#d4242e 70%,#b3121b)}
+  .h-us{background:linear-gradient(135deg,#0d1726,#16243a 60%,#1d2f49)}
+  .h-divide{width:6px;background:linear-gradient(#e3b94a,#c89b3c)}
+  .star{position:absolute;right:18px;top:16px;font-size:2.2rem;opacity:.85}
+  .rays{position:absolute;inset:0;opacity:.18;pointer-events:none}
+  .h-ru h2,.h-us h2{margin:.1em 0;font-size:1.05rem;letter-spacing:.5px}
+  .h-ru small,.h-us small{font-size:.82rem}
+  .h-ru{color:#ffe9cf}.h-us{color:#f4e4c1}
+  .h-us .accent{color:var(--gold)}
+  .htitle{text-align:center;margin:14px 0 4px}
+  .htitle h1{margin:.1em 0;font-size:1.7rem}
+  .chip{display:inline-block;background:#2a0f12;border:1px solid var(--red);
+    color:#ffd9c2;font-size:.76rem;font-weight:700;padding:4px 11px;border-radius:999px;
+    text-transform:uppercase;letter-spacing:.5px}
+  .sub{color:var(--muted);text-align:center;font-size:.95rem;margin:.3em 0 0}
+
+  .progresso{position:sticky;top:0;z-index:30;margin:0 -16px 16px;
+    background:#141017dd;backdrop-filter:blur(6px);padding:10px 16px;border-bottom:1px solid var(--line)}
+  .barra{height:14px;background:#0e0b12;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+  .barra > i{display:block;height:100%;width:0;border-radius:999px;
+    background:linear-gradient(90deg,var(--red),var(--gold));transition:width .5s ease}
+  .progresso small{color:var(--muted)}
+
+  .salvar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:16px}
+  .salvar .info{color:var(--muted);font-size:.85rem;flex:1 1 200px}
+  button{font-family:inherit;cursor:pointer;border:none;border-radius:10px;
+    padding:9px 14px;font-size:.92rem;font-weight:700;color:#2a0f06;
+    background:linear-gradient(90deg,var(--gold),#f0d27a)}
+  button.ghost{background:#241a2c;color:var(--txt);border:1px solid var(--line)}
+  button:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(.3)}
+
+  .bloco{background:var(--panel);border:1px solid var(--line);border-radius:16px;
+    padding:20px 20px 22px;margin-bottom:16px;position:relative;box-shadow:0 6px 18px #00000055}
+  .bloco.ru{border-left:6px solid var(--red)}
+  .bloco.us{border-left:6px solid var(--gold)}
+  .bloco.travado{opacity:.5}
+  .bloco.travado .conteudo{display:none}
+  .ladoTag{display:inline-block;font-size:.72rem;font-weight:800;padding:2px 10px;border-radius:999px;
+    text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+  .ladoTag.ru{background:#2a0f12;color:#ff9a9a;border:1px solid var(--red2)}
+  .ladoTag.us{background:#16243a;color:var(--gold);border:1px solid var(--gold2)}
+  .bloco h2{margin:.1em 0 .3em;font-size:1.25rem;color:#fff5e6}
+  .bloco .num{display:inline-flex;align-items:center;justify-content:center;
+    width:34px;height:34px;border-radius:9px;font-weight:800;margin-right:10px;color:#2a0f06}
+  .ru .num{background:linear-gradient(135deg,var(--red2),var(--red))}
+  .us .num{background:linear-gradient(135deg,var(--gold2),var(--gold))}
+  .lock{position:absolute;right:18px;top:18px;color:var(--muted);font-size:.85rem}
+  .texto p{margin:.55em 0}
+  .destaque{color:var(--gold);font-weight:700}
+  .destaque-r{color:#ff8f8f;font-weight:700}
+
+  .pergunta{margin:16px 0 4px;font-weight:700;color:#fff5e6}
+  textarea{width:100%;min-height:64px;resize:vertical;background:var(--panel2);
+    border:1px solid var(--line);border-radius:10px;color:var(--txt);
+    padding:10px 12px;font-family:inherit;font-size:.95rem;margin-top:6px}
+  textarea:focus{outline:2px solid var(--gold2);border-color:var(--gold2)}
+
+  .modelo{display:none;margin-top:10px;background:#1a2515;border:1px solid #3c5e19;
+    border-radius:10px;padding:10px 13px}
+  .modelo b{color:var(--green)}
+  .auto{display:none;gap:8px;flex-wrap:wrap;align-items:center;margin-top:12px;
+    padding-top:12px;border-top:1px dashed var(--line)}
+  .auto span{color:var(--muted);font-size:.9rem;margin-right:4px}
+  .auto label{display:inline-flex;gap:6px;align-items:center;background:#241a2c;
+    border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer;font-size:.9rem}
+  .auto label.ok{border-color:var(--green)}
+  .auto label.rev{border-color:var(--yellow)}
+
+  .acoes{margin-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+  .feito{color:var(--green);font-weight:700;display:none}
+
+  .pegadinhas{background:var(--redbg);border:1px solid #5e1e26;border-radius:16px;padding:20px;margin-top:8px}
+  .pegadinhas h2{color:var(--warn);margin-top:0}
+  .pegadinhas ol{margin:0;padding-left:20px}
+  .pegadinhas li{margin:8px 0}
+
+  .resumoauto{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:20px;margin-top:16px}
+  .resumoauto table{width:100%;border-collapse:collapse;font-size:.92rem}
+  .resumoauto td{padding:7px 6px;border-bottom:1px solid var(--line)}
+  .tag{font-size:.8rem;font-weight:700;padding:2px 9px;border-radius:999px}
+  .tag.ok{background:#173a24;color:var(--green);border:1px solid #2c7d49}
+  .tag.rev{background:#3a3210;color:var(--yellow);border:1px solid #8a7320}
+  .tag.no{background:#241019;color:var(--muted);border:1px solid var(--line)}
+
+  .final-trancado{text-align:center;color:var(--muted);padding:26px;
+    border:1px dashed var(--line);border-radius:16px;margin-top:8px}
+  .parabens{text-align:center;background:linear-gradient(135deg,#9c1118,#16243a);
+    border:1px solid var(--gold);border-radius:16px;padding:24px;margin-bottom:16px;display:none}
+  .parabens h2{margin:.2em 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="h-side h-ru">
+      <svg class="rays" viewBox="0 0 300 200" preserveAspectRatio="none"><g stroke="#ffe9cf" stroke-width="2" fill="none">
+        <path d="M0 30 H120 V90 H230"/><path d="M0 150 H90 V100"/></g></svg>
+      <span class="star">★</span>
+      <h2>🚩 LADO VERMELHO</h2>
+      <small>Rússia — Revolução Bolchevique e a URSS<br>(Capítulo 8)</small>
+    </div>
+    <div class="h-divide"></div>
+    <div class="h-side h-us">
+      <svg class="rays" viewBox="0 0 300 200" preserveAspectRatio="none"><g stroke="#e3b94a" stroke-width="2" fill="none">
+        <path d="M150 200 L40 40"/><path d="M150 200 L150 30"/><path d="M150 200 L260 40"/><path d="M150 200 L300 120"/><path d="M150 200 L0 120"/></g></svg>
+      <h2 style="text-align:right">🎷 LADO <span class="accent">DOURADO</span></h2>
+      <small style="display:block;text-align:right">Estados Unidos — Anos 20 e a Crise de 1929<br>(Capítulo 9)</small>
+    </div>
+  </header>
+
+  <div class="htitle">
+    <span class="chip">📖 Dois Mundos em Crise · Leitura Guiada</span>
+    <h1>História — 9º ano</h1>
+    <p class="sub"><b>Avaliação de 16/06</b> — Capítulos 8 e 9 · Você é a <b>jovem aprendiz</b> desta missão: leia cada bloco, responda com suas palavras e confira. O próximo bloco só abre quando você termina o anterior.</p>
+  </div>
+
+  <div class="progresso">
+    <div class="barra"><i id="fill"></i></div>
+    <small id="progtxt">Bloco 0 de 11 concluídos</small>
+  </div>
+
+  <div class="salvar">
+    <div class="info" id="saveinfo">Seu progresso é salvo sozinho neste navegador.</div>
+    <button class="ghost" onclick="exportar()">📥 Exportar progresso</button>
+    <button class="ghost" onclick="document.getElementById('imp').click()">📤 Importar</button>
+    <input id="imp" type="file" accept="application/json" style="display:none" onchange="importar(event)">
+    <button class="ghost" onclick="zerar()">🗑️ Zerar tudo</button>
+  </div>
+
+  <div id="blocos"></div>
+
+  <div id="finalTrancado" class="final-trancado">🔒 Termine os 11 blocos para liberar as <b>pegadinhas da prova</b> e o resumo da sua autoavaliação.</div>
+
+  <div id="parabens" class="parabens">
+    <h2>🎉 Missão concluída, jovem aprendiz!</h2>
+    <p>Você atravessou os dois mundos: a Revolução Russa e a Crise de 1929. Agora confira as pegadinhas e seu resumo abaixo.</p>
+  </div>
+
+  <div id="pegadinhasBox"></div>
+  <div id="resumoBox"></div>
+
+</div>
+
+<script>
+/* ====== CONTEÚDO DOS BLOCOS ====== */
+const BLOCOS = [
+{
+ lado:"ru", t:"A Rússia antes da revolução: um país preso no passado",
+ texto:`<p>No início do século XX, a <span class="destaque-r">Rússia era o maior país do mundo</span>, mas vivia muito atrasada em relação ao resto da Europa. Enquanto outros países se industrializavam, a Rússia ainda era um <b>Estado autoritário</b>, governado por um imperador chamado <span class="destaque-r">czar</span>, apoiado por uma nobreza dona das terras.</p>
+ <p>A maior parte da população — cerca de <b>80%</b> — era de <span class="destaque-r">camponeses</span> que trabalhavam para os nobres em regime de <b>servidão</b> (presos à terra, sem serem donos dela). Em 1861, o czar <b>Alexandre II</b> aboliu a servidão para tentar modernizar o país e atrair capital estrangeiro (francês e inglês) para a indústria.</p>
+ <p>Mesmo assim, a vida do povo continuou muito dura. Aos poucos, foi surgindo nas cidades um novo grupo: os <span class="destaque-r">operários</span> das fábricas, que viviam amontoados e começaram a perceber que tinham problemas em comum.</p>`,
+ q:["Quem governava a Rússia e em que tipo de regime?",
+    "O que era a servidão e quem foi o czar que a aboliu?",
+    "Que novo grupo social começou a crescer nas cidades?"],
+ m:["Um imperador chamado czar, num Estado autoritário, apoiado pela nobreza dona das terras.",
+    "Era o trabalho dos camponeses presos à terra, sem serem donos dela; foi abolida por Alexandre II em 1861.",
+    "Os operários das fábricas, que viviam amontoados nas cidades."]
+},
+{
+ lado:"ru", t:"Partidos clandestinos e os bolcheviques de Lênin",
+ texto:`<p>Como o czar não permitia partidos políticos, eles existiam <span class="destaque-r">na clandestinidade</span> (escondidos). O mais importante era o <b>POSDR</b> (Partido Operário Social-Democrata Russo), que seguia as ideias <b>marxistas</b> (de Karl Marx).</p>
+ <p>Esse partido se dividiu. O grupo chamado <span class="destaque-r">bolcheviques</span> (que quer dizer "maioria", em russo) defendia formar uma <b>elite de revolucionários profissionais</b> para implantar o socialismo por meio de uma revolução. O líder desse grupo era <span class="destaque-r">Lênin</span> (cujo nome verdadeiro era Vladimir Ilyich Ulyanov), que viveu anos exilado.</p>
+ <p>Mais tarde, o Partido Bolchevique viraria o <b>Partido Comunista da União Soviética</b>. Enquanto isso, no trono estava o último czar, <span class="destaque-r">Nicolau II</span>, da dinastia Romanov (no poder desde o século XVII), tão autoritário quanto os anteriores.</p>`,
+ q:["O que eram os bolcheviques e o que essa palavra significa?",
+    "Quem era o líder dos bolcheviques?",
+    "Quem era o último czar da Rússia e de qual família?"],
+ m:["Eram o grupo do POSDR que defendia uma elite de revolucionários para fazer a revolução socialista; 'bolchevique' quer dizer 'maioria'.",
+    "Era Lênin (Vladimir Ilyich Ulyanov).",
+    "Nicolau II, da dinastia (família) Romanov."]
+},
+{
+ lado:"ru", t:"1905: Domingo Sangrento e o nascimento dos sovietes",
+ texto:`<p>Em 1904, a Rússia entrou na <b>Guerra Russo-Japonesa</b> (disputando a Manchúria e a Coreia) e levou uma derrota humilhante. O custo da guerra recaiu sobre o povo pobre: mais impostos, falta de comida e recrutamento de soldados.</p>
+ <p>Em janeiro de <span class="destaque-r">1905</span>, o padre Gapon organizou uma marcha pacífica até o Palácio de Inverno para entregar uma petição ao czar. As tropas imperiais <b>atiraram na multidão</b> e mataram centenas de pessoas. Esse episódio ficou conhecido como <span class="destaque-r">Domingo Sangrento</span>, e acabou com a confiança que o povo ainda tinha no czar.</p>
+ <p>A partir daí, o povo começou a se organizar em <span class="destaque-r">sovietes</span> — conselhos de autogestão formados por operários, camponeses e soldados, que elegiam seus próprios líderes. O maior e mais influente ficava em São Petersburgo.</p>`,
+ q:["O que foi o Domingo Sangrento (1905)?",
+    "Qual guerra antes disso enfraqueceu o czar?",
+    "O que eram os sovietes?"],
+ m:["Foi quando as tropas do czar atiraram numa marcha pacífica liderada pelo padre Gapon, matando centenas; acabou com a confiança no czar.",
+    "A Guerra Russo-Japonesa (1904-1905), que a Rússia perdeu.",
+    "Conselhos de autogestão formados por operários, camponeses e soldados, que elegiam seus próprios líderes."]
+},
+{
+ lado:"ru", t:"A Primeira Guerra e a Revolução de Fevereiro",
+ texto:`<p>A Rússia fazia parte da <span class="destaque-r">Tríplice Entente</span> (com Grã-Bretanha e França) e entrou na <b>Primeira Guerra Mundial</b> em 1914 — mas estava totalmente despreparada. O exército era mal armado e mal alimentado, e sofreu derrotas pesadas, como em <b>Tannenberg</b>.</p>
+ <p>Em fevereiro de <span class="destaque-r">1917</span>, sem comida na capital, as mulheres das fábricas de tecido saíram às ruas pedindo o fim da guerra. Milhares de operários se juntaram em greve. Quando até os <b>soldados passaram a apoiar</b> as rebeliões, o czar perdeu o controle.</p>
+ <p>A Duma (o parlamento) pediu a <b>abdicação de Nicolau II</b>, que renunciou — foi o fim do czarismo. Isso é a <span class="destaque-r">Revolução de Fevereiro</span>. Surgiu então uma <b>dualidade de poder</b>: de um lado o <b>Governo Provisório</b> (ligado às elites, liderado pelo príncipe Lvov) e, de outro, o <b>Soviete de Petrogrado</b> (representando o povo).</p>`,
+ q:["Por que a Rússia se saiu tão mal na Primeira Guerra Mundial?",
+    "O que aconteceu na Revolução de Fevereiro de 1917?",
+    "O que foi a 'dualidade de poder' que surgiu depois?"],
+ m:["Porque entrou despreparada: exército mal armado e mal alimentado, sofrendo derrotas como Tannenberg.",
+    "O povo e os soldados se rebelaram, e o czar Nicolau II abdicou — acabou o czarismo.",
+    "Dois poderes ao mesmo tempo: o Governo Provisório (elites) e o Soviete de Petrogrado (povo)."]
+},
+{
+ lado:"ru", t:"Teses de Abril e a Revolução de Outubro",
+ texto:`<p>Em abril de 1917, <span class="destaque-r">Lênin voltou do exílio</span> e lançou as <b>Teses de Abril</b>, com dois lemas que conquistaram o povo: <span class="destaque-r">"Paz, Pão e Terra"</span> e <span class="destaque-r">"Todo poder aos sovietes!"</span>. Ele rompeu de vez com o Governo Provisório, que insistia em continuar na guerra.</p>
+ <p>O Governo Provisório (agora liderado por <b>Kerensky</b>) perdeu apoio. Trabalhadores e soldados, animados pelos discursos de Lênin, passaram a apoiar os bolcheviques. Outra figura importante se juntou ao partido: <b>Trótski</b> (Liev Bronstein), eleito presidente do Soviete de Petrogrado.</p>
+ <p>Em outubro de 1917, os bolcheviques tomaram o poder na <span class="destaque-r">Revolução de Outubro</span> (ou Revolução Bolchevique), instalando — pela primeira vez na história — um <b>regime socialista</b>. O novo governo se chamou Conselho dos Comissários do Povo.</p>`,
+ q:["Quais eram os dois lemas das Teses de Abril de Lênin?",
+    "Quem foi Trótski nesse processo?",
+    "O que aconteceu na Revolução de Outubro de 1917?"],
+ m:["'Paz, Pão e Terra' e 'Todo poder aos sovietes!'.",
+    "Foi um líder que se juntou aos bolcheviques e virou presidente do Soviete de Petrogrado.",
+    "Os bolcheviques tomaram o poder e instalaram o primeiro regime socialista da história."]
+},
+{
+ lado:"ru", t:"O governo de Lênin, a Guerra Civil, a NEP e a URSS",
+ texto:`<p>Logo de início, o governo de Lênin assinou o <b>Decreto de Paz</b> (saindo da Primeira Guerra) e o <b>Decreto sobre a Terra</b> (confiscando as terras da nobreza e do clero para os camponeses). A nobreza e a burguesia perderam o poder. Também houve <b>igualdade entre homens e mulheres</b> e estatização da economia.</p>
+ <p>Para sair da guerra, a Rússia assinou com a Alemanha o <b>Tratado de Brest-Litovski</b>, perdendo território. Em seguida veio a <span class="destaque-r">Guerra Civil</span>: os <b>Vermelhos</b> (bolcheviques) contra os <b>Brancos</b> (que queriam derrubá-los).</p>
+ <p>A economia ficou destruída. Por isso, em 1921, Lênin lançou a <span class="destaque-r">NEP (Nova Política Econômica)</span>, que liberou <b>algumas práticas capitalistas</b> (pequenas fábricas, uso da moeda) — mas a política continuou autoritária, com apenas um partido. Em <b>1922</b> nasceu a <span class="destaque-r">URSS</span> (União das Repúblicas Socialistas Soviéticas), com capital em Moscou.</p>`,
+ q:["O que diziam o Decreto de Paz e o Decreto sobre a Terra?",
+    "Quem lutou na Guerra Civil russa (os dois lados)?",
+    "O que foi a NEP e o que nasceu em 1922?"],
+ m:["O Decreto de Paz tirou a Rússia da guerra; o Decreto sobre a Terra tomou as terras da nobreza/clero para os camponeses.",
+    "Os Vermelhos (bolcheviques) contra os Brancos (que queriam derrubá-los).",
+    "A NEP liberou algumas práticas capitalistas para recuperar a economia; em 1922 nasceu a URSS, com capital em Moscou."]
+},
+{
+ lado:"us", t:"Os 'anos loucos' e o American way of life",
+ texto:`<p>Atravessamos o oceano! Depois da Primeira Guerra, os <span class="destaque">Estados Unidos viviam uma enorme prosperidade</span> nos anos 1920 — a década ficou conhecida como <b>"anos loucos"</b> (em inglês, <i>roaring twenties</i>). Os EUA eram o <b>maior credor e produtor do mundo</b>.</p>
+ <p>O presidente Coolidge resumiu a época: <i>"o principal negócio dos EUA são os negócios"</i>. Surgiu o <span class="destaque">American way of life</span> ("estilo de vida americano"), baseado no <b>consumo</b>: quanto mais bens uma pessoa tinha, mais "feliz" ela seria. Era também o tempo do <b>jazz</b>, do charleston, das saias curtas e das festas.</p>
+ <p>A vida das <span class="destaque">mulheres</span> mudou bastante: elas entraram no mercado de trabalho, passaram a dirigir, a usar cabelos e saias mais curtos e a participar da vida política. O Estado quase não interferia na economia interna (<b>liberalismo</b>), confiando no esforço do <b>self-made man</b>.</p>`,
+ q:["Por que os anos 1920 nos EUA ficaram conhecidos como 'anos loucos'?",
+    "O que é o American way of life?",
+    "Como mudou a vida das mulheres nesse período?"],
+ m:["Por causa da grande prosperidade e da diversão: jazz, charleston, saias curtas, festas e consumo.",
+    "É o 'estilo de vida americano', baseado no consumo: ter mais bens seria sinal de felicidade.",
+    "Elas entraram no mercado de trabalho, passaram a dirigir, usar cabelos/saias curtos e participar da política."]
+},
+{
+ lado:"us", t:"Henry Ford, a linha de montagem e o consumo a crédito",
+ texto:`<p>A indústria americana produzia novidades em massa: rádio, geladeira, máquina de lavar, aspirador. Mas o grande símbolo foi o <span class="destaque">automóvel</span>. <b>Henry Ford</b> criou a primeira <b>linha de montagem</b> e o modelo <b>Ford T</b> (apelidado de "Ford Bigode").</p>
+ <p>A linha de montagem barateava muito a produção: o carro que custava cerca de 900 dólares passou a sair por <b>300 dólares</b>, e a fábrica produzia mais de um milhão por ano. Era a ideia de <i>"tempo é dinheiro"</i>.</p>
+ <p>Para vender tudo isso, foi preciso estimular o consumo com a <span class="destaque">venda a crédito</span> (pagar em parcelas) e muita propaganda. Mas havia um perigo escondido: máquinas substituíam trabalhadores (gerando desemprego) e o crédito fácil levava muita gente ao <b>endividamento</b>.</p>`,
+ q:["O que Henry Ford criou e qual era seu carro famoso?",
+    "Como a linha de montagem mudou o preço dos carros?",
+    "Qual perigo escondido vinha junto com o consumo a crédito?"],
+ m:["Criou a linha de montagem e o modelo Ford T ('Ford Bigode').",
+    "Baixou muito o custo: de cerca de 900 para 300 dólares, produzindo mais de um milhão por ano.",
+    "As máquinas geravam desemprego e o crédito fácil levava ao endividamento das pessoas."]
+},
+{
+ lado:"us", t:"A bolsa de valores, a especulação e a quebra de 1929",
+ texto:`<p>A <span class="destaque">bolsa de valores</span> é um mercado onde se compram e vendem <b>ações</b> (pedacinhos de uma empresa). Se a empresa cresce, a ação se valoriza e quem comprou pode vender mais caro. Na década de 1920, muita gente passou a investir na bolsa para ficar rica rápido.</p>
+ <p>O problema é que o preço das ações subia muito mais do que as empresas realmente cresciam — isso se chama <span class="destaque">especulação</span>. As pessoas até <b>tomavam empréstimos no banco</b> para comprar ações, apostando que iam vender ainda mais caro. Era um castelo de cartas.</p>
+ <p>Em outubro de <span class="destaque">1929</span> o castelo caiu. No dia 24, milhões de ações foram postas à venda e ninguém comprou. No dia <b>29 de outubro</b>, a situação explodiu: o mercado perdeu <b>14 bilhões de dólares</b> e a <span class="destaque">bolsa de Nova York quebrou</span>. Junto veio a <b>crise de superprodução</b> (fábricas com produtos demais e sem compradores).</p>`,
+ q:["O que é uma ação e o que é a bolsa de valores?",
+    "O que significa 'especulação' na bolsa?",
+    "O que aconteceu em outubro de 1929?"],
+ m:["Ação é um pedacinho de uma empresa; a bolsa é o mercado onde se compram e vendem essas ações.",
+    "É quando o preço das ações sobe muito mais do que a empresa realmente cresce, virando uma aposta.",
+    "A bolsa de Nova York quebrou: ações sem comprador e o mercado perdeu 14 bilhões de dólares."]
+},
+{
+ lado:"us", t:"A Grande Depressão e as hoovervilles",
+ texto:`<p>Depois da quebra da bolsa veio a <span class="destaque">Grande Depressão</span>: milhares de empresas e bancos faliram no início dos anos 1930. A economia mais rica do mundo entrou em <b>colapso</b>, com desemprego altíssimo.</p>
+ <p>O presidente da época, <b>Hoover</b>, acreditava no <b>liberalismo</b> e achava que a crise se resolveria sozinha pelo mercado — por isso quase não agiu. A situação só piorou. Surgiram bairros de casas precárias onde moravam os desempregados, apelidados de <span class="destaque">"hoovervilles"</span> ("cidades de Hoover").</p>
+ <p>Como os EUA emprestavam dinheiro e vendiam para o mundo todo, a crise <span class="destaque">se espalhou pelo planeta</span> — países como a Áustria também sofreram. O desemprego mundial bateu recordes em 1932-1933. Curiosamente, o único bloco que <b>não foi atingido</b> foi a <b>União Soviética</b>, que não seguia o liberalismo econômico.</p>`,
+ q:["O que foi a Grande Depressão?",
+    "O que eram as hoovervilles e de onde vem esse nome?",
+    "Por que a crise se espalhou pelo mundo, e qual país não foi atingido?"],
+ m:["Foi a profunda crise após a quebra da bolsa: milhares de empresas e bancos faliram e o desemprego disparou.",
+    "Eram bairros de casas precárias dos desempregados; o nome vem do presidente Hoover.",
+    "Porque os EUA emprestavam e vendiam para o mundo todo; a URSS não foi atingida porque não seguia o liberalismo."]
+},
+{
+ lado:"us", t:"A solução: o New Deal de Roosevelt",
+ texto:`<p>Em 1932, com o desemprego nas alturas, os americanos elegeram um novo presidente: <span class="destaque">Franklin Delano Roosevelt</span> (do Partido Democrata), que prometia tirar o país da crise. Na posse, ele disse a famosa frase: <i>"a única coisa que temos que temer é o próprio medo"</i>.</p>
+ <p>Roosevelt <b>rompeu com o liberalismo</b> e lançou um plano de recuperação chamado <span class="destaque">New Deal</span> ("Novo Acordo"). A grande novidade era o <b>Estado intervindo na economia</b> — o contrário do que se fazia antes.</p>
+ <p>O New Deal criou milhares de empregos com <b>obras públicas</b>, colocou <b>supervisão sobre os bancos</b> e ajudou a montar um <b>Estado de bem-estar social</b> (o governo cuidando mais das pessoas). Foi a forma encontrada pelos EUA para <b>salvar o capitalismo</b> da crise — sem virar socialista.</p>`,
+ q:["Quem era Roosevelt e o que ele prometia?",
+    "O que foi o New Deal e qual era sua grande novidade?",
+    "Cite duas medidas do New Deal."],
+ m:["Era o presidente eleito em 1932 (Partido Democrata), que prometia tirar os EUA da crise.",
+    "Foi o plano de recuperação econômica cuja novidade era o Estado intervindo na economia (rompendo com o liberalismo).",
+    "Obras públicas para gerar empregos e supervisão dos bancos (além do Estado de bem-estar social)."]
+}
+];
+
+const PEGADINHAS = [
+ "Não confunda os czares: <b>Alexandre II</b> aboliu a servidão (1861); <b>Nicolau II</b> foi o último czar, que abdicou em 1917.",
+ "<b>Bolcheviques</b> = 'maioria', grupo de Lênin. Eles defendiam a revolução socialista. Não troque com mencheviques.",
+ "O <b>Domingo Sangrento</b> foi em <b>1905</b> (padre Gapon). A queda do czar foi só em <b>1917</b> (Revolução de Fevereiro).",
+ "São DUAS revoluções em 1917: <b>Fevereiro</b> (cai o czar, surge o Governo Provisório) e <b>Outubro</b> (bolcheviques tomam o poder).",
+ "Os lemas de Lênin (Teses de Abril) são <b>'Paz, Pão e Terra'</b> e <b>'Todo poder aos sovietes!'</b>. Cai muito em prova.",
+ "<b>NEP</b> liberou um pouco o capitalismo, mas a política continuou <b>autoritária</b> (um só partido). A <b>URSS</b> nasceu em <b>1922</b>.",
+ "Nos EUA: o Estado <b>não interferia na economia interna</b> (liberalismo), mas <b>investia no mundo</b> (Europa, América Latina, China).",
+ "A bolsa quebrou em <b>1929</b> por causa da <b>especulação</b> e da <b>superprodução</b>. A crise virou a <b>Grande Depressão</b> nos anos 1930.",
+ "<b>Hoover</b> = liberalismo e hoovervilles (não agiu). <b>Roosevelt</b> = New Deal e intervenção do Estado. Não troque os dois!",
+ "O New Deal serviu para <b>salvar o capitalismo</b>, NÃO para tornar os EUA socialistas. A URSS é que foi o único bloco não atingido pela crise."
+];
+
+/* ====== ESTADO / SALVAMENTO ====== */
+const KEY='hist_9_cap89_leituraguiada_v1';
+let estado={resp:{}, auto:{}, conferido:{}, ts:null};
+
+function carregar(){ try{const s=localStorage.getItem(KEY);if(s)estado=JSON.parse(s);}catch(e){} }
+function salvar(){ estado.ts=new Date().toISOString();localStorage.setItem(KEY,JSON.stringify(estado));pintarInfo(); }
+function pintarInfo(){
+  const el=document.getElementById('saveinfo');
+  if(estado.ts){const d=new Date(estado.ts);
+    el.innerHTML='💾 Último salvamento: <b>'+d.toLocaleDateString('pt-BR')+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</b>';}
+  else el.textContent='Seu progresso é salvo sozinho neste navegador.';
+}
+
+function render(){
+  const cont=document.getElementById('blocos');cont.innerHTML='';
+  BLOCOS.forEach((b,i)=>{
+    const conferido=!!estado.conferido[i];
+    const liberado = i===0 || !!estado.conferido[i-1];
+    const div=document.createElement('div');
+    div.className='bloco '+b.lado+(liberado?'':' travado');
+    div.id='bloco'+i;
+    let qhtml='';
+    b.q.forEach((q,j)=>{
+      const val=(estado.resp[i]&&estado.resp[i][j])?estado.resp[i][j]:'';
+      qhtml+=`<div class="pergunta">${j+1}. ${q}</div>
+        <textarea data-b="${i}" data-q="${j}" oninput="onResp(${i},${j},this.value)" ${conferido?'disabled':''}>${val.replace(/</g,'&lt;')}</textarea>
+        <div class="modelo" id="mod${i}_${j}"><b>Resposta modelo:</b> ${b.m[j]}</div>`;
+    });
+    const autoVal=estado.auto[i]||'';
+    const ladoLabel = b.lado==='ru' ? '🚩 Rússia · Cap. 8' : '🎷 EUA · Cap. 9';
+    div.innerHTML=`
+      ${liberado?'':'<div class="lock">🔒 bloco trancado</div>'}
+      <span class="ladoTag ${b.lado}">${ladoLabel}</span><br>
+      <h2><span class="num">${i+1}</span>${b.t}</h2>
+      <div class="conteudo">
+        <div class="texto">${b.texto}</div>
+        ${qhtml}
+        <div class="acoes">
+          <button id="btn${i}" onclick="conferir(${i})" ${conferido?'disabled':''}>✅ Conferir respostas</button>
+          <span class="feito" id="feito${i}">Bloco concluído ✓</span>
+        </div>
+        <div class="auto" id="auto${i}">
+          <span>Como você foi neste bloco?</span>
+          <label class="ok"><input type="radio" name="auto${i}" value="acertei" onchange="setAuto(${i},'acertei')" ${autoVal==='acertei'?'checked':''}> 😎 Acertei</label>
+          <label class="rev"><input type="radio" name="auto${i}" value="revisar" onchange="setAuto(${i},'revisar')" ${autoVal==='revisar'?'checked':''}> 📌 Preciso revisar</label>
+        </div>
+      </div>`;
+    cont.appendChild(div);
+    if(conferido) marcarConferido(i);
+  });
+  atualizarBotoes();atualizarProgresso();pintarInfo();checarFinal();
+}
+
+function onResp(i,j,v){estado.resp[i]=estado.resp[i]||{};estado.resp[i][j]=v;atualizarBotoes();salvar();}
+function setAuto(i,v){estado.auto[i]=v;salvar();montarResumo();}
+
+function todasPreenchidas(i){
+  const b=BLOCOS[i];
+  for(let j=0;j<b.q.length;j++){
+    const v=(estado.resp[i]&&estado.resp[i][j])?estado.resp[i][j].trim():'';
+    if(v.length<3)return false;
+  }
+  return true;
+}
+function atualizarBotoes(){
+  BLOCOS.forEach((b,i)=>{const btn=document.getElementById('btn'+i);
+    if(btn&&!estado.conferido[i]) btn.disabled=!todasPreenchidas(i);});
+}
+function conferir(i){
+  if(!todasPreenchidas(i))return;
+  estado.conferido[i]=true;marcarConferido(i);salvar();render();
+  const prox=document.getElementById('bloco'+(i+1));
+  if(prox)prox.scrollIntoView({behavior:'smooth',block:'start'});
+  else document.getElementById('finalTrancado').scrollIntoView({behavior:'smooth'});
+}
+function marcarConferido(i){
+  BLOCOS[i].q.forEach((q,j)=>{const m=document.getElementById('mod'+i+'_'+j);if(m)m.style.display='block';});
+  const a=document.getElementById('auto'+i);if(a)a.style.display='flex';
+  const f=document.getElementById('feito'+i);if(f)f.style.display='inline';
+  const btn=document.getElementById('btn'+i);if(btn){btn.disabled=true;btn.textContent='✅ Conferido';}
+}
+function atualizarProgresso(){
+  const n=Object.keys(estado.conferido).filter(k=>estado.conferido[k]).length;
+  document.getElementById('fill').style.width=(n/BLOCOS.length*100)+'%';
+  document.getElementById('progtxt').textContent='Bloco '+n+' de '+BLOCOS.length+' concluídos';
+}
+function checarFinal(){
+  const todos=BLOCOS.every((b,i)=>estado.conferido[i]);
+  document.getElementById('finalTrancado').style.display=todos?'none':'block';
+  document.getElementById('parabens').style.display=todos?'block':'none';
+  document.getElementById('pegadinhasBox').innerHTML = todos ? pegadinhasHTML() : '';
+  if(todos) montarResumo(); else document.getElementById('resumoBox').innerHTML='';
+}
+function pegadinhasHTML(){
+  let li=PEGADINHAS.map(p=>'<li>'+p+'</li>').join('');
+  return `<div class="pegadinhas"><h2>⚠️ 10 pegadinhas que mais derrubam na prova</h2><ol>${li}</ol></div>`;
+}
+function montarResumo(){
+  const todos=BLOCOS.every((b,i)=>estado.conferido[i]);
+  if(!todos){document.getElementById('resumoBox').innerHTML='';return;}
+  let linhas=BLOCOS.map((b,i)=>{
+    const a=estado.auto[i];
+    let tag = a==='acertei'?'<span class="tag ok">Acertei</span>'
+            : a==='revisar'?'<span class="tag rev">Revisar</span>'
+            : '<span class="tag no">marque acima</span>';
+    return `<tr><td>${i+1}. ${b.t}</td><td style="text-align:right">${tag}</td></tr>`;
+  }).join('');
+  const rev=BLOCOS.filter((b,i)=>estado.auto[i]==='revisar');
+  let dica = rev.length
+    ? `<p style="margin-top:14px;color:var(--yellow)">📌 Você marcou <b>${rev.length}</b> bloco(s) para revisar. Volte neles antes de partir para o Resumo e o Simulado!</p>`
+    : `<p style="margin-top:14px;color:var(--green)">🎉 Você marcou todos como "Acertei". Ótimo! Pode seguir para o Resumo e os exercícios.</p>`;
+  document.getElementById('resumoBox').innerHTML=
+    `<div class="resumoauto"><h2>📊 Sua autoavaliação</h2><table>${linhas}</table>${dica}</div>`;
+}
+function exportar(){
+  const blob=new Blob([JSON.stringify(estado,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download='progresso-leitura-guiada-historia.json';a.click();
+}
+function importar(ev){
+  const f=ev.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{estado=JSON.parse(r.result);salvar();render();alert('Progresso importado! ✅');}
+    catch(e){alert('Arquivo inválido.');}};
+  r.readAsText(f);
+}
+function zerar(){
+  if(confirm('Tem certeza? Isso apaga todas as respostas para outra criança usar.')){
+    estado={resp:{},auto:{},conferido:{},ts:null};localStorage.removeItem(KEY);render();}
+}
+carregar();render();
+</script>
+</body>
+</html>

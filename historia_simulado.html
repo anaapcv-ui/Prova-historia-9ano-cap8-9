@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulado Interativo — História 9º ano (Cap. 8 e 9)</title>
+<style>
+  :root{--bg:#0c1018;--panel:#141b27;--panel2:#10161f;--line:#26303f;
+    --txt:#eaf0f8;--muted:#9fb0c4;--red:#e23a45;--red2:#b3121b;
+    --gold:#e3b94a;--gold2:#c89b3c;--yellow:#ffd86b;--warn:#ff7b7b;--green:#37c97a;--gray:#7d8aa6;--navy:#102036;}
+  *{box-sizing:border-box}
+  body{margin:0;background:
+      radial-gradient(820px 480px at 8% -6%, #15294a66, transparent),
+      radial-gradient(820px 480px at 95% -4%, #3a0f1455, transparent),var(--bg);
+    color:var(--txt);font-family:'Segoe UI',system-ui,Arial,sans-serif;font-size:18px;line-height:1.55}
+  .wrap{max-width:900px;margin:0 auto;padding:18px 16px 90px}
+  header{position:relative;overflow:hidden;border-radius:18px;border:1px solid #21406b;
+    background:linear-gradient(125deg,#0b1c33,#102036 60%,#13294a);padding:24px;margin-bottom:8px;box-shadow:0 10px 30px #00000077}
+  header h1{margin:.1em 0;font-size:1.55rem;color:#eef4ff}
+  header p{margin:.2em 0;color:#bcd0ec}
+  .chip{display:inline-block;background:#0b1c33;border:1px solid var(--red);color:#ff9aa0;
+    font-size:.76rem;font-weight:700;padding:4px 11px;border-radius:999px;text-transform:uppercase}
+  .star{position:absolute;right:18px;top:16px;font-size:2rem;opacity:.85;color:var(--gold)}
+  .redbar{background:linear-gradient(90deg,var(--red2),var(--red));height:8px;border-radius:0 0 6px 6px;margin:0 -16px 14px}
+
+  .barTop{position:sticky;top:0;z-index:40;margin:0 -16px 14px;padding:10px 16px;
+    background:#0c1018ee;backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .contador{font-weight:700}
+  .codebar{display:none;background:linear-gradient(90deg,#b3121b,#102036);border:1px solid var(--red);
+    border-radius:12px;padding:12px 14px;margin-top:8px;color:#fff}
+  .codebar b{font-size:1.25rem;letter-spacing:1px;color:#fff}
+
+  .q{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:14px}
+  .q.ru{border-left:5px solid var(--red)} .q.us{border-left:5px solid var(--gold)}
+  .qtag{display:inline-block;font-size:.68rem;font-weight:800;padding:1px 9px;border-radius:999px;text-transform:uppercase;margin-bottom:6px}
+  .qtag.ru{background:#2a0f12;color:#ff9a9a;border:1px solid var(--red2)}
+  .qtag.us{background:#16243a;color:var(--gold);border:1px solid var(--gold2)}
+  .q .num{display:inline-block;background:linear-gradient(135deg,var(--navy),#1d3a63);color:#dce9ff;
+    font-weight:800;border-radius:8px;padding:2px 10px;margin-right:8px}
+  .q p.enun{font-weight:700;margin:.2em 0 .7em}
+  .opt{display:block;background:#172230;border:1px solid var(--line);border-radius:10px;
+    padding:10px 13px;margin:7px 0;cursor:pointer;transition:.15s}
+  .opt:hover{border-color:var(--red)}
+  .opt input{margin-right:9px}
+  .opt.sel{border-color:var(--red);background:#241620}
+  .opt.cert{border-color:var(--green);background:#173a24;color:#d6ffe9}
+  .opt.err{border-color:var(--warn);background:#2a1115;color:#ffd5d5}
+  .opt.fade{opacity:.6;color:var(--gray)}
+  .fb{display:none;margin-top:8px;font-size:.9rem;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px}
+
+  .painel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:16px 0}
+  button.b{font-family:inherit;cursor:pointer;border:none;border-radius:10px;padding:12px 18px;font-weight:800;
+    color:#fff;background:linear-gradient(90deg,var(--red2),var(--red));font-size:1rem}
+  button.b:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(.4)}
+  button.ghost{background:#172230;color:var(--txt);border:1px solid var(--line);font-weight:700;border-radius:10px;padding:9px 14px;cursor:pointer}
+  input.code{background:var(--panel2);border:1px solid var(--line);border-radius:10px;color:var(--txt);
+    padding:10px 12px;font-size:1.05rem;letter-spacing:1px;text-transform:uppercase;width:170px}
+  .salvar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--panel);
+    border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:14px}
+  .salvar .info{color:var(--muted);font-size:.84rem;flex:1 1 180px}
+  .aviso{color:var(--yellow);font-size:.9rem;margin-top:8px}
+  .res{font-size:1.15rem;font-weight:800;color:var(--gold);margin-bottom:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="star">★</span>
+    <span class="chip">🎯 Dois Mundos em Crise · Simulado</span>
+    <h1>Simulado Interativo — História 9º ano</h1>
+    <p><b>Avaliação de 16/06</b> — 29 questões no estilo da prova · Cap. 8 e 9</p>
+  </header>
+  <div class="redbar"></div>
+
+  <div class="barTop">
+    <span class="contador" id="contador">Respondidas: 0 de 29</span>
+    <div class="codebar" id="codebar">🔑 Código de liberação para a mãe: <b id="codeval"></b><br>
+      <small>Digite este código lá embaixo para abrir o gabarito comentado.</small></div>
+  </div>
+
+  <div class="salvar">
+    <div class="info" id="saveinfo">Suas respostas são salvas sozinhas neste navegador.</div>
+    <button class="ghost" onclick="exportar()">📥 Exportar</button>
+    <button class="ghost" onclick="document.getElementById('imp').click()">📤 Importar</button>
+    <input id="imp" type="file" accept="application/json" style="display:none" onchange="importar(event)">
+    <button class="ghost" onclick="zerar()">🗑️ Zerar</button>
+  </div>
+
+  <div id="quizBox"></div>
+
+  <div class="painel" id="painelEnviar">
+    <div class="aviso" id="avisoFalta">Responda todas as 29 questões para liberar o envio.</div>
+    <button class="b" id="btnEnviar" disabled onclick="enviar()">📤 Enviar respostas</button>
+    <p style="color:var(--muted);font-size:.88rem;margin:.6em 0 0">Atenção: depois de enviar, não dá para mudar as respostas.</p>
+  </div>
+
+  <div class="painel" id="painelCodigo" style="display:none">
+    <div class="res" id="resTxt"></div>
+    <p>Para ver o <b>gabarito comentado</b>, digite o código de liberação:</p>
+    <input class="code" id="codeInput" placeholder="SIM-XX-YY" maxlength="9">
+    <button class="b" onclick="abrirGabarito()">🔓 Abrir gabarito</button>
+    <p class="aviso" id="codeErr" style="display:none">Código incorreto. Confira na barra colorida lá em cima.</p>
+  </div>
+</div>
+
+<script>
+const QUESTOES=[
+ {lado:"ru",e:"No início do século XX, cerca de 80% da população russa era formada por:",
+  o:["operários das fábricas","camponeses em regime de servidão","nobres donos de terras","comerciantes das cidades"],c:1,
+  fb:"A maioria era de camponeses que trabalhavam para os nobres em regime de servidão."},
+ {lado:"ru",e:"A servidão, comum na Rússia até 1861, pode ser definida como:",
+  o:["o trabalho do camponês preso à terra, sem ser dono dela","o trabalho assalariado nas fábricas","a posse das terras pelos camponeses","o comércio entre cidades"],c:0,
+  fb:"Servidão = camponês vinculado à terra em que trabalha, sem ser proprietário dela."},
+ {lado:"ru",e:"O POSDR (Partido Operário Social-Democrata Russo) seguia as ideias:",
+  o:["liberais","marxistas","monarquistas","anarquistas apenas"],c:1,
+  fb:"O POSDR tinha orientação marxista (das ideias de Karl Marx)."},
+ {lado:"ru",e:"A palavra 'bolchevique' significa, em russo:",
+  o:["minoria","operário","maioria","soldado"],c:2,
+  fb:"'Bolchevique' quer dizer 'maioria'. Era o grupo liderado por Lênin."},
+ {lado:"ru",e:"O líder dos bolcheviques, que passou anos exilado, era:",
+  o:["Nicolau II","Kerensky","Lênin (Vladimir Ulyanov)","Alexandre II"],c:2,
+  fb:"Lênin, cujo nome verdadeiro era Vladimir Ilyich Ulyanov."},
+ {lado:"ru",e:"A Guerra Russo-Japonesa (1904-1905) terminou com:",
+  o:["uma grande vitória russa","um fracasso russo, que aumentou a revolta popular","a conquista do Japão","a paz imediata sem perdas"],c:1,
+  fb:"Foi um fracasso russo; o custo recaiu sobre o povo pobre e aumentou a revolta."},
+ {lado:"ru",e:"Depois do Domingo Sangrento (1905), o povo russo passou a se organizar em:",
+  o:["sindicatos da nobreza","sovietes (conselhos de operários, camponeses e soldados)","partidos liberais","empresas privadas"],c:1,
+  fb:"Surgiram os sovietes, conselhos de autogestão que elegiam seus próprios líderes."},
+ {lado:"ru",e:"Em 1914, a Rússia entrou na Primeira Guerra Mundial como parte da:",
+  o:["Tríplice Aliança","Tríplice Entente","Liga das Nações","URSS"],c:1,
+  fb:"A Rússia integrava a Tríplice Entente, com Grã-Bretanha e França."},
+ {lado:"ru",e:"A Revolução de Fevereiro de 1917 teve como consequência:",
+  o:["a coroação de um novo czar","a abdicação de Nicolau II e o fim do czarismo","a entrada na guerra","a criação da NEP"],c:1,
+  fb:"O czar Nicolau II abdicou e o regime czarista chegou ao fim."},
+ {lado:"ru",e:"Após a Revolução de Fevereiro, instalou-se uma 'dualidade de poder' entre o Governo Provisório e:",
+  o:["o Soviete de Petrogrado","a nobreza Romanov","o Partido Nazista","a Igreja Ortodoxa"],c:0,
+  fb:"De um lado o Governo Provisório (elites); de outro o Soviete de Petrogrado (povo)."},
+ {lado:"ru",e:"O 'Decreto sobre a Terra', do governo de Lênin, determinou que:",
+  o:["as terras voltassem à nobreza","as terras fossem confiscadas da nobreza e do clero para os camponeses","as terras fossem vendidas a estrangeiros","ninguém pudesse ter terras"],c:1,
+  fb:"As terras da nobreza e do clero foram confiscadas e distribuídas aos camponeses."},
+ {lado:"ru",e:"O 'Decreto de Paz', logo após a Revolução de Outubro, serviu para:",
+  o:["declarar guerra ao Japão","tirar a Rússia da Primeira Guerra Mundial","invadir a Alemanha","criar a URSS"],c:1,
+  fb:"O Decreto de Paz declarou a saída da Rússia da Primeira Guerra."},
+ {lado:"ru",e:"O Tratado de Brest-Litovski, assinado pela Rússia, significou:",
+  o:["uma aliança com a França","uma paz separada com a Alemanha, com perda de território","a entrada na guerra","o fim da URSS"],c:1,
+  fb:"Foi a paz separada com o Império Alemão, custando à Rússia muito território."},
+ {lado:"ru",e:"Na Guerra Civil russa, os bolcheviques (Vermelhos) enfrentaram os:",
+  o:["Brancos, que queriam derrubá-los","Verdes ecologistas","Azuis monarquistas franceses","Amarelos chineses"],c:0,
+  fb:"Foram os Brancos, grupos que queriam derrubar o governo bolchevique."},
+ {lado:"ru",e:"A NEP (Nova Política Econômica), de 1921, caracterizou-se por:",
+  o:["proibir totalmente o comércio","liberar algumas práticas capitalistas mantendo a política autoritária","devolver o poder ao czar","acabar com o Partido Comunista"],c:1,
+  fb:"A NEP abriu um pouco a economia, mas só um partido era permitido."},
+ {lado:"us",e:"Durante a década de 1920, os Estados Unidos eram:",
+  o:["um país agrícola e pobre","o maior credor e produtor do mundo","uma colônia europeia","um país socialista"],c:1,
+  fb:"Os EUA eram a nova potência mundial: maior credor e produtor do planeta."},
+ {lado:"us",e:"O 'American way of life' era um estilo de vida baseado, sobretudo:",
+  o:["na servidão","no consumo","no socialismo","no isolamento total"],c:1,
+  fb:"Baseava-se no consumo: ter mais bens seria sinal de felicidade."},
+ {lado:"us",e:"Nos 'anos loucos', a vida das mulheres mudou porque elas:",
+  o:["voltaram a ficar só em casa","entraram no mercado de trabalho e ganharam mais liberdade","perderam o direito de dirigir","foram proibidas de trabalhar"],c:1,
+  fb:"Elas entraram no mercado de trabalho, passaram a dirigir e a participar da vida pública."},
+ {lado:"us",e:"A linha de montagem criada por Henry Ford permitiu:",
+  o:["produzir carros mais rápido e mais barato","acabar com as fábricas","aumentar o preço dos carros","produzir só um carro por ano"],c:0,
+  fb:"A linha de montagem barateou a produção (o Ford T caiu de cerca de 900 para 300 dólares)."},
+ {lado:"us",e:"A venda a crédito e a propaganda, nos anos 1920, serviam para:",
+  o:["reduzir o consumo","estimular o consumo","acabar com os bancos","fechar as fábricas"],c:1,
+  fb:"Serviam para estimular o consumo, sustentando a produção em alta."},
+ {lado:"us",e:"O liberalismo econômico, dominante nos EUA antes da crise, defendia que:",
+  o:["o Estado deve controlar tudo","o Estado não deve interferir na economia","o comércio deve ser proibido","só o czar decide a economia"],c:1,
+  fb:"O liberalismo prega que o Estado não interfira na economia, deixando o mercado se autorregular."},
+ {lado:"us",e:"Na bolsa de valores são negociadas:",
+  o:["terras de camponeses","ações de empresas","soldados","alimentos do governo"],c:1,
+  fb:"São negociadas ações, que representam pedaços do capital das empresas."},
+ {lado:"us",e:"No dia 29 de outubro de 1929, na bolsa de Nova York:",
+  o:["o mercado bateu recorde de alta","milhões de ações foram postas à venda e a bolsa quebrou","o governo comprou tudo","nada aconteceu"],c:1,
+  fb:"Mais de 16 milhões de ações foram postas à venda; o mercado perdeu 14 bilhões de dólares e a bolsa quebrou."},
+ {lado:"us",e:"A 'crise de superprodução' que acompanhou a quebra da bolsa ocorreu porque:",
+  o:["faltavam produtos no mercado","havia produtos demais e poucos compradores","o governo confiscou as fábricas","todos viraram ricos"],c:1,
+  fb:"Fábricas e fazendas tinham produção em excesso sem compradores, caminhando para a falência."},
+ {lado:"us",e:"A Grande Depressão, no início dos anos 1930, foi marcada por:",
+  o:["pleno emprego e riqueza","falência de empresas e bancos e desemprego em massa","fim das fábricas socialistas","crescimento sem limites"],c:1,
+  fb:"Milhares de empresas e bancos faliram e o desemprego atingiu níveis enormes."},
+ {lado:"us",e:"As chamadas 'hoovervilles' eram:",
+  o:["fábricas modernas","bairros de casas precárias dos desempregados","bancos falidos","cinemas de luxo"],c:1,
+  fb:"Eram aglomerados de casas precárias dos desempregados; o nome vem do presidente Hoover."},
+ {lado:"us",e:"O único bloco que praticamente não foi atingido pela crise de 1929 foi:",
+  o:["a União Soviética","a Inglaterra","a Alemanha","o Japão"],c:0,
+  fb:"A URSS não foi atingida porque não seguia o liberalismo econômico."},
+ {lado:"us",e:"Para enfrentar a crise, o presidente Roosevelt lançou um plano de recuperação econômica chamado:",
+  o:["NEP","New Deal","American way of life","Tríplice Entente"],c:1,
+  fb:"O New Deal ('Novo Acordo'), com forte intervenção do Estado na economia."},
+ {lado:"us",e:"Uma das principais medidas do New Deal foi:",
+  o:["proibir empréstimos a agricultores","financiar obras públicas para gerar empregos","estatizar todas as empresas","tornar os EUA socialistas"],c:1,
+  fb:"O New Deal criou milhares de empregos com o financiamento de obras públicas, além de supervisionar os bancos."}
+];
+
+const KEY='hist_9_cap89_simulado_v1';
+const LETRAS='ABCDEFGHJKLMNPQRSTUVWXYZ'; // sem I e O
+let estado={resp:{},enviado:false,codigo:null,acertos:null,gabarito:false,ts:null};
+try{const s=localStorage.getItem(KEY);if(s)estado=JSON.parse(s);}catch(e){}
+const TOTAL=QUESTOES.length;
+
+function salvar(){estado.ts=new Date().toISOString();localStorage.setItem(KEY,JSON.stringify(estado));pintarInfo();}
+function pintarInfo(){const el=document.getElementById('saveinfo');
+  if(estado.ts){const d=new Date(estado.ts);
+    el.innerHTML='💾 Último salvamento: <b>'+d.toLocaleDateString('pt-BR')+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</b>';}}
+
+function render(){
+  const box=document.getElementById('quizBox');
+  box.innerHTML=QUESTOES.map((q,i)=>{
+    const sel=estado.resp[i];
+    const opts=q.o.map((o,k)=>{
+      let cls='opt';
+      if(!estado.enviado){ if(sel===k)cls+=' sel'; }
+      else if(estado.gabarito){ if(k===q.c)cls+=' cert'; else if(sel===k)cls+=' err'; else cls+=' fade'; }
+      else { if(sel===k)cls+=' sel'; }
+      return `<label class="${cls}">
+        <input type="radio" name="q${i}" ${sel===k?'checked':''} ${estado.enviado?'disabled':''}
+          onchange="resp(${i},${k})"> ${o}</label>`;
+    }).join('');
+    const fb=(estado.enviado&&estado.gabarito)?`<div class="fb" style="display:block">💡 ${q.fb}</div>`:'';
+    const tag = q.lado==='ru' ? '<span class="qtag ru">🚩 Rússia</span>' : '<span class="qtag us">🎷 EUA</span>';
+    return `<div class="q ${q.lado}">${tag}<br><p class="enun"><span class="num">${i+1}</span>${q.e}</p>${opts}${fb}</div>`;
+  }).join('');
+  atualizar();pintarInfo();
+  if(estado.enviado)mostrarEnviado();
+}
+function resp(i,k){if(estado.enviado)return;estado.resp[i]=k;salvar();atualizar();}
+function atualizar(){
+  const n=Object.keys(estado.resp).length;
+  document.getElementById('contador').textContent='Respondidas: '+n+' de '+TOTAL;
+  const btn=document.getElementById('btnEnviar');
+  if(btn){btn.disabled=(n<TOTAL)||estado.enviado;}
+  const av=document.getElementById('avisoFalta');
+  if(av)av.style.display=(n<TOTAL&&!estado.enviado)?'block':'none';
+}
+function calcAcertos(){let a=0;QUESTOES.forEach((q,i)=>{if(estado.resp[i]===q.c)a++;});return a;}
+function gerarCodigo(ac){
+  const xx=String(ac).padStart(2,'0');
+  const yy=LETRAS[Math.floor(Math.random()*LETRAS.length)]+LETRAS[Math.floor(Math.random()*LETRAS.length)];
+  return 'SIM-'+xx+'-'+yy;
+}
+function enviar(){
+  if(Object.keys(estado.resp).length<TOTAL||estado.enviado)return;
+  if(!confirm('Enviar as respostas? Depois não dá para mudar.'))return;
+  estado.enviado=true;estado.acertos=calcAcertos();estado.codigo=gerarCodigo(estado.acertos);
+  salvar();render();
+  document.getElementById('codebar').scrollIntoView({behavior:'smooth'});
+}
+function mostrarEnviado(){
+  document.getElementById('painelEnviar').style.display='none';
+  document.getElementById('codebar').style.display='block';
+  document.getElementById('codeval').textContent=estado.codigo;
+  const pc=document.getElementById('painelCodigo');pc.style.display='block';
+  document.getElementById('resTxt').textContent='✅ Respostas enviadas! Você acertou '+estado.acertos+' de '+TOTAL+'.';
+  if(estado.gabarito){document.getElementById('codeInput').value=estado.codigo;document.getElementById('codeInput').disabled=true;}
+}
+function abrirGabarito(){
+  const v=document.getElementById('codeInput').value.trim().toUpperCase();
+  if(v===estado.codigo){estado.gabarito=true;salvar();render();
+    document.getElementById('quizBox').scrollIntoView({behavior:'smooth'});}
+  else document.getElementById('codeErr').style.display='block';
+}
+function exportar(){const blob=new Blob([JSON.stringify(estado,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='progresso-simulado-historia.json';a.click();}
+function importar(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{estado=JSON.parse(r.result);salvar();render();alert('Importado! ✅');}catch(e){alert('Arquivo inválido.');}};
+  r.readAsText(f);}
+function zerar(){if(confirm('Apagar tudo para outra criança usar?')){
+  estado={resp:{},enviado:false,codigo:null,acertos:null,gabarito:false,ts:null};
+  localStorage.removeItem(KEY);
+  document.getElementById('painelEnviar').style.display='block';
+  document.getElementById('codebar').style.display='none';
+  document.getElementById('painelCodigo').style.display='none';render();}}
+render();
+</script>
+</body>
+</html>

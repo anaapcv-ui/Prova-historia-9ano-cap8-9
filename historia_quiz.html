@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Interativo — História 9º ano (Cap. 8 e 9)</title>
+<style>
+  :root{--bg:#141017;--panel:#1d1822;--panel2:#171320;--line:#352a3f;
+    --txt:#f3ecdd;--muted:#b6a9bd;--red:#d4242e;--red2:#9c1118;
+    --gold:#e3b94a;--gold2:#c89b3c;--yellow:#ffd86b;--warn:#ff6b6b;--green:#37c97a;--gray:#7d8aa6;}
+  *{box-sizing:border-box}
+  body{margin:0;background:
+      radial-gradient(820px 480px at 8% -6%, #4a0d1255, transparent),
+      radial-gradient(820px 480px at 95% -4%, #3a2c0f66, transparent),var(--bg);
+    color:var(--txt);font-family:'Segoe UI',system-ui,Arial,sans-serif;font-size:18px;line-height:1.55}
+  .wrap{max-width:880px;margin:0 auto;padding:18px 16px 90px}
+  header{position:relative;overflow:hidden;border-radius:18px;border:1px solid #5a2a18;
+    background:linear-gradient(125deg,#9c1118,#b3121b 45%,#16243a);padding:24px;margin-bottom:14px;box-shadow:0 10px 30px #00000066}
+  header h1{margin:.1em 0;font-size:1.55rem;color:#fff5e6}
+  header p{margin:.2em 0;color:#ffe0cf}
+  .chip{display:inline-block;background:#2a0f12;border:1px solid var(--gold);color:var(--gold);
+    font-size:.76rem;font-weight:700;padding:4px 11px;border-radius:999px;text-transform:uppercase}
+  .star{position:absolute;right:18px;top:16px;font-size:2rem;opacity:.8;color:var(--gold)}
+
+  .barTop{position:sticky;top:0;z-index:40;margin:0 -16px 14px;padding:10px 16px;
+    background:#141017ee;backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .contador{font-weight:700}
+  .codebar{display:none;background:linear-gradient(90deg,#9c1118,#c89b3c);border:1px solid var(--gold);
+    border-radius:12px;padding:12px 14px;margin-top:8px;color:#fff5e6}
+  .codebar b{font-size:1.25rem;letter-spacing:1px;color:#fff}
+
+  .q{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:14px}
+  .q.ru{border-left:5px solid var(--red)} .q.us{border-left:5px solid var(--gold)}
+  .qtag{display:inline-block;font-size:.68rem;font-weight:800;padding:1px 9px;border-radius:999px;text-transform:uppercase;margin-bottom:6px}
+  .qtag.ru{background:#2a0f12;color:#ff9a9a;border:1px solid var(--red2)}
+  .qtag.us{background:#16243a;color:var(--gold);border:1px solid var(--gold2)}
+  .q .num{display:inline-block;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#2a0f06;
+    font-weight:800;border-radius:8px;padding:2px 10px;margin-right:8px}
+  .q p.enun{font-weight:700;margin:.2em 0 .7em}
+  .opt{display:block;background:#221a2c;border:1px solid var(--line);border-radius:10px;
+    padding:10px 13px;margin:7px 0;cursor:pointer;transition:.15s}
+  .opt:hover{border-color:var(--gold)}
+  .opt input{margin-right:9px}
+  .opt.sel{border-color:var(--gold);background:#2a2016}
+  .opt.cert{border-color:var(--green);background:#173a24;color:#d6ffe9}
+  .opt.err{border-color:var(--warn);background:#2a1115;color:#ffd5d5}
+  .opt.fade{opacity:.6;color:var(--gray)}
+  .fb{display:none;margin-top:8px;font-size:.9rem;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px}
+
+  .painel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:16px 0}
+  button.b{font-family:inherit;cursor:pointer;border:none;border-radius:10px;padding:12px 18px;font-weight:800;
+    color:#2a0f06;background:linear-gradient(90deg,var(--gold),#f0d27a);font-size:1rem}
+  button.b:disabled{opacity:.4;cursor:not-allowed;filter:grayscale(.4)}
+  button.ghost{background:#241a2c;color:var(--txt);border:1px solid var(--line);font-weight:700;border-radius:10px;padding:9px 14px;cursor:pointer}
+  input.code{background:var(--panel2);border:1px solid var(--line);border-radius:10px;color:var(--txt);
+    padding:10px 12px;font-size:1.05rem;letter-spacing:1px;text-transform:uppercase;width:170px}
+  .salvar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--panel);
+    border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:14px}
+  .salvar .info{color:var(--muted);font-size:.84rem;flex:1 1 180px}
+  .aviso{color:var(--yellow);font-size:.9rem;margin-top:8px}
+  .res{font-size:1.15rem;font-weight:800;color:var(--gold);margin-bottom:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="star">★</span>
+    <span class="chip">⭐ Dois Mundos em Crise · Quiz</span>
+    <h1>Quiz Interativo — História 9º ano</h1>
+    <p><b>Avaliação de 16/06</b> — 15 questões · Cap. 8 (Revolução Russa) e Cap. 9 (Crise de 1929)</p>
+  </header>
+
+  <div class="barTop">
+    <span class="contador" id="contador">Respondidas: 0 de 15</span>
+    <div class="codebar" id="codebar">🔑 Código de liberação para a mãe: <b id="codeval"></b><br>
+      <small>Digite este código lá embaixo para abrir o gabarito comentado.</small></div>
+  </div>
+
+  <div class="salvar">
+    <div class="info" id="saveinfo">Suas respostas são salvas sozinhas neste navegador.</div>
+    <button class="ghost" onclick="exportar()">📥 Exportar</button>
+    <button class="ghost" onclick="document.getElementById('imp').click()">📤 Importar</button>
+    <input id="imp" type="file" accept="application/json" style="display:none" onchange="importar(event)">
+    <button class="ghost" onclick="zerar()">🗑️ Zerar</button>
+  </div>
+
+  <div id="quizBox"></div>
+
+  <div class="painel" id="painelEnviar">
+    <div class="aviso" id="avisoFalta">Responda todas as 15 questões para liberar o envio.</div>
+    <button class="b" id="btnEnviar" disabled onclick="enviar()">📤 Enviar respostas</button>
+    <p style="color:var(--muted);font-size:.88rem;margin:.6em 0 0">Atenção: depois de enviar, não dá para mudar as respostas.</p>
+  </div>
+
+  <div class="painel" id="painelCodigo" style="display:none">
+    <div class="res" id="resTxt"></div>
+    <p>Para ver o <b>gabarito comentado</b>, digite o código de liberação:</p>
+    <input class="code" id="codeInput" placeholder="MED-XX-YY" maxlength="9">
+    <button class="b" onclick="abrirGabarito()">🔓 Abrir gabarito</button>
+    <p class="aviso" id="codeErr" style="display:none">Código incorreto. Confira na barra colorida lá em cima.</p>
+  </div>
+</div>
+
+<script>
+const QUESTOES=[
+ {lado:"ru",e:"No início do século XX, a Rússia era governada por um imperador autoritário chamado:",
+  o:["presidente","czar","primeiro-ministro","cônsul"],c:1,
+  fb:"Czar = 'imperador', em russo. Ele governava de forma autoritária, apoiado pela nobreza."},
+ {lado:"ru",e:"Quem aboliu a servidão na Rússia, em 1861, para tentar modernizar o país?",
+  o:["Lênin","Nicolau II","Alexandre II","Trótski"],c:2,
+  fb:"Foi Alexandre II. Não confunda com Nicolau II, que foi o último czar e caiu em 1917."},
+ {lado:"ru",e:"Os bolcheviques, liderados por Lênin, defendiam principalmente:",
+  o:["manter o czar no poder","uma revolução para implantar o socialismo","o retorno da servidão","o liberalismo econômico"],c:1,
+  fb:"Eram marxistas e queriam uma revolução para implantar o socialismo. 'Bolchevique' = 'maioria'."},
+ {lado:"ru",e:"O episódio de 1905 em que tropas do czar atiraram numa marcha pacífica liderada pelo padre Gapon ficou conhecido como:",
+  o:["Revolução de Outubro","Domingo Sangrento","New Deal","Tratado de Brest-Litovski"],c:1,
+  fb:"O Domingo Sangrento (1905) acabou com a confiança que o povo ainda tinha no czar."},
+ {lado:"ru",e:"Os sovietes, que surgiram nesse período, eram:",
+  o:["fábricas estatais","conselhos de operários, camponeses e soldados","partidos da nobreza","bancos do governo"],c:1,
+  fb:"Sovietes eram conselhos de autogestão de operários, camponeses e soldados, que elegiam seus líderes."},
+ {lado:"ru",e:"A Revolução de Fevereiro de 1917 teve como resultado direto:",
+  o:["a entrada da Rússia na guerra","a abdicação do czar Nicolau II","a criação da URSS","a vitória dos Brancos"],c:1,
+  fb:"O povo e os soldados se rebelaram e Nicolau II abdicou — foi o fim do czarismo."},
+ {lado:"ru",e:"As Teses de Abril, de Lênin, tinham como lemas:",
+  o:["'Ordem e Progresso'","'Liberdade, Igualdade, Fraternidade'","'Paz, Pão e Terra' e 'Todo poder aos sovietes!'","'O principal negócio são os negócios'"],c:2,
+  fb:"'Paz, Pão e Terra' e 'Todo poder aos sovietes!' — conquistaram o apoio do povo."},
+ {lado:"ru",e:"Na Revolução de Outubro de 1917, os bolcheviques:",
+  o:["devolveram o poder ao czar","tomaram o poder e instalaram o primeiro regime socialista","saíram da Rússia","aboliram a servidão"],c:1,
+  fb:"Tomaram o poder e instalaram, pela primeira vez na história, um regime socialista."},
+ {lado:"ru",e:"Sobre a NEP (Nova Política Econômica, de 1921), é correto afirmar que:",
+  o:["liberou algumas práticas capitalistas, mas a política seguiu autoritária","tornou a Rússia totalmente capitalista","devolveu as terras à nobreza","acabou com o Partido Comunista"],c:0,
+  fb:"A NEP abriu um pouco a economia, mas só um partido era permitido — continuou autoritária."},
+ {lado:"ru",e:"A URSS (União das Repúblicas Socialistas Soviéticas) foi criada em:",
+  o:["1905","1917","1922","1929"],c:2,
+  fb:"A URSS nasceu em 1922, com capital em Moscou. Não confunda com a revolução de 1917."},
+ {lado:"us",e:"Os anos 1920 nos Estados Unidos ficaram conhecidos como 'anos loucos' por causa:",
+  o:["da guerra civil","da prosperidade, do consumo, do jazz e das festas","do socialismo","da servidão"],c:1,
+  fb:"Foi um tempo de prosperidade e diversão: jazz, charleston, festas e muito consumo (American way of life)."},
+ {lado:"us",e:"Henry Ford ficou famoso por:",
+  o:["criar a bolsa de valores","criar a linha de montagem e o Ford T","inventar o jazz","lançar o New Deal"],c:1,
+  fb:"Ford criou a linha de montagem, que barateou o carro (de cerca de 900 para 300 dólares)."},
+ {lado:"us",e:"Na bolsa de valores, 'especulação' significa:",
+  o:["o preço das ações sobe muito mais do que a empresa realmente cresce","a empresa fechar as portas","o governo comprar ações","trocar ações por terras"],c:0,
+  fb:"Especulação é quando o preço das ações dispara sem ligação real com a produção — vira aposta."},
+ {lado:"us",e:"A quebra da bolsa de Nova York, que iniciou a grande crise, aconteceu em:",
+  o:["outubro de 1929","fevereiro de 1917","março de 1921","janeiro de 1905"],c:0,
+  fb:"Foi em outubro de 1929: ações sem comprador e perda de 14 bilhões de dólares."},
+ {lado:"us",e:"O New Deal, lançado por Roosevelt, baseava-se principalmente:",
+  o:["na saída dos EUA da economia mundial","na intervenção do Estado na economia","no fim de todos os bancos","na transformação dos EUA em país socialista"],c:1,
+  fb:"O New Deal rompeu com o liberalismo: o Estado passou a intervir na economia (obras públicas, supervisão dos bancos) para salvar o capitalismo."}
+];
+
+const KEY='hist_9_cap89_quiz_v1';
+const LETRAS='ABCDEFGHJKLMNPQRSTUVWXYZ'; // sem I e O
+let estado={resp:{},enviado:false,codigo:null,acertos:null,gabarito:false,ts:null};
+try{const s=localStorage.getItem(KEY);if(s)estado=JSON.parse(s);}catch(e){}
+
+function salvar(){estado.ts=new Date().toISOString();localStorage.setItem(KEY,JSON.stringify(estado));pintarInfo();}
+function pintarInfo(){const el=document.getElementById('saveinfo');
+  if(estado.ts){const d=new Date(estado.ts);
+    el.innerHTML='💾 Último salvamento: <b>'+d.toLocaleDateString('pt-BR')+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</b>';}}
+
+function render(){
+  const box=document.getElementById('quizBox');
+  box.innerHTML=QUESTOES.map((q,i)=>{
+    const sel=estado.resp[i];
+    const opts=q.o.map((o,k)=>{
+      let cls='opt';
+      if(!estado.enviado){ if(sel===k)cls+=' sel'; }
+      else if(estado.gabarito){ if(k===q.c)cls+=' cert'; else if(sel===k)cls+=' err'; else cls+=' fade'; }
+      else { if(sel===k)cls+=' sel'; }
+      return `<label class="${cls}">
+        <input type="radio" name="q${i}" ${sel===k?'checked':''} ${estado.enviado?'disabled':''}
+          onchange="resp(${i},${k})"> ${o}</label>`;
+    }).join('');
+    const fb=(estado.enviado&&estado.gabarito)?`<div class="fb" style="display:block">💡 ${q.fb}</div>`:'';
+    const tag = q.lado==='ru' ? '<span class="qtag ru">🚩 Rússia</span>' : '<span class="qtag us">🎷 EUA</span>';
+    return `<div class="q ${q.lado}">${tag}<br><p class="enun"><span class="num">${i+1}</span>${q.e}</p>${opts}${fb}</div>`;
+  }).join('');
+  atualizar();pintarInfo();
+  if(estado.enviado)mostrarEnviado();
+}
+function resp(i,k){if(estado.enviado)return;estado.resp[i]=k;salvar();atualizar();}
+function atualizar(){
+  const n=Object.keys(estado.resp).length;
+  document.getElementById('contador').textContent='Respondidas: '+n+' de 15';
+  const btn=document.getElementById('btnEnviar');
+  if(btn){btn.disabled=(n<15)||estado.enviado;}
+  const av=document.getElementById('avisoFalta');
+  if(av)av.style.display=(n<15&&!estado.enviado)?'block':'none';
+}
+function calcAcertos(){let a=0;QUESTOES.forEach((q,i)=>{if(estado.resp[i]===q.c)a++;});return a;}
+function gerarCodigo(ac){
+  const xx=String(ac).padStart(2,'0');
+  const yy=LETRAS[Math.floor(Math.random()*LETRAS.length)]+LETRAS[Math.floor(Math.random()*LETRAS.length)];
+  return 'MED-'+xx+'-'+yy;
+}
+function enviar(){
+  if(Object.keys(estado.resp).length<15||estado.enviado)return;
+  if(!confirm('Enviar as respostas? Depois não dá para mudar.'))return;
+  estado.enviado=true;estado.acertos=calcAcertos();estado.codigo=gerarCodigo(estado.acertos);
+  salvar();render();
+  document.getElementById('codebar').scrollIntoView({behavior:'smooth'});
+}
+function mostrarEnviado(){
+  document.getElementById('painelEnviar').style.display='none';
+  document.getElementById('codebar').style.display='block';
+  document.getElementById('codeval').textContent=estado.codigo;
+  const pc=document.getElementById('painelCodigo');pc.style.display='block';
+  document.getElementById('resTxt').textContent='✅ Respostas enviadas! Você acertou '+estado.acertos+' de 15.';
+  if(estado.gabarito){document.getElementById('codeInput').value=estado.codigo;document.getElementById('codeInput').disabled=true;}
+}
+function abrirGabarito(){
+  const v=document.getElementById('codeInput').value.trim().toUpperCase();
+  if(v===estado.codigo){estado.gabarito=true;salvar();render();
+    document.getElementById('quizBox').scrollIntoView({behavior:'smooth'});}
+  else document.getElementById('codeErr').style.display='block';
+}
+function exportar(){const blob=new Blob([JSON.stringify(estado,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='progresso-quiz-historia.json';a.click();}
+function importar(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{estado=JSON.parse(r.result);salvar();render();alert('Importado! ✅');}catch(e){alert('Arquivo inválido.');}};
+  r.readAsText(f);}
+function zerar(){if(confirm('Apagar tudo para outra criança usar?')){
+  estado={resp:{},enviado:false,codigo:null,acertos:null,gabarito:false,ts:null};
+  localStorage.removeItem(KEY);
+  document.getElementById('painelEnviar').style.display='block';
+  document.getElementById('codebar').style.display='none';
+  document.getElementById('painelCodigo').style.display='none';render();}}
+render();
+</script>
+</body>
+</html>

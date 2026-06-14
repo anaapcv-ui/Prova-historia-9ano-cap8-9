@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumo Interativo — História 9º ano (Cap. 8 e 9)</title>
+<style>
+  :root{
+    --bg:#141017; --panel:#1d1822; --panel2:#171320;
+    --line:#352a3f; --txt:#f3ecdd; --muted:#b6a9bd;
+    --red:#d4242e; --red2:#9c1118; --redbg:#2a0f12; --cream:#f4e4c1;
+    --gold:#e3b94a; --gold2:#c89b3c; --teal:#16243a; --deco:#0f1a2b;
+    --yellow:#ffd86b; --warn:#ff6b6b; --green:#37c97a;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:
+      radial-gradient(820px 480px at 8% -6%, #4a0d1255, transparent),
+      radial-gradient(820px 480px at 95% -4%, #3a2c0f66, transparent),
+      var(--bg);
+    color:var(--txt);font-family:'Segoe UI',system-ui,Arial,sans-serif;font-size:18px;line-height:1.6}
+  .wrap{max-width:960px;margin:0 auto;padding:18px 16px 90px}
+
+  header{position:relative;overflow:hidden;border-radius:18px;border:1px solid #5a2a18;
+    margin-bottom:18px;box-shadow:0 12px 34px #00000066;display:flex;min-height:130px}
+  .h-side{flex:1;padding:22px;position:relative}
+  .h-ru{background:linear-gradient(135deg,#9c1118,#d4242e 70%,#b3121b);color:#ffe9cf}
+  .h-us{background:linear-gradient(135deg,#0d1726,#16243a 60%,#1d2f49);color:#f4e4c1}
+  .h-divide{width:6px;background:linear-gradient(#e3b94a,#c89b3c)}
+  .star{position:absolute;right:16px;top:14px;font-size:2rem;opacity:.85}
+  .rays{position:absolute;inset:0;opacity:.18;pointer-events:none}
+  .h-side h2{margin:.1em 0;font-size:1rem;letter-spacing:.5px}
+  .h-side small{font-size:.8rem}
+  .h-us .accent{color:var(--gold)}
+  .htitle{text-align:center;margin:14px 0 6px}
+  .htitle h1{margin:.1em 0;font-size:1.7rem}
+  .chip{display:inline-block;background:#2a0f12;border:1px solid var(--red);color:#ffd9c2;
+    font-size:.76rem;font-weight:700;padding:4px 11px;border-radius:999px;text-transform:uppercase;letter-spacing:.5px}
+  .sub{color:var(--muted);text-align:center;font-size:.95rem;margin:.3em 0 0}
+
+  /* navegação por abas */
+  .tabs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:18px 0}
+  .tab{background:var(--panel);border:1px solid var(--line);border-radius:999px;
+    padding:9px 16px;cursor:pointer;font-weight:700;font-size:.92rem;color:var(--txt)}
+  .tab.ru.on{background:#2a0f12;border-color:var(--red);color:#ff9a9a}
+  .tab.us.on{background:#16243a;border-color:var(--gold);color:var(--gold)}
+  .secao{display:none}
+  .secao.on{display:block}
+
+  h2.titsec{font-size:1.35rem;margin:8px 0 14px;padding-left:12px}
+  .secao.ru h2.titsec{border-left:5px solid var(--red)}
+  .secao.us h2.titsec{border-left:5px solid var(--gold)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px;margin-bottom:18px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+  .card.ru{border-top:4px solid var(--red)}
+  .card.us{border-top:4px solid var(--gold)}
+  .card h3{margin:.1em 0 .4em;font-size:1.08rem;color:#fff5e6}
+  .card p{margin:.3em 0;font-size:.95rem;color:#e9e0d2}
+  .card .key{color:var(--gold);font-weight:700}
+  .card.ru .key{color:#ff8f8f}
+
+  /* flip cards */
+  .flipgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-bottom:18px}
+  .flip{background:transparent;perspective:1000px;height:160px;cursor:pointer}
+  .flip-in{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+  .flip.on .flip-in{transform:rotateY(180deg)}
+  .flip-f,.flip-b{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14px;border:1px solid var(--line)}
+  .flip-f{background:linear-gradient(135deg,#231b2c,#2a1018)}
+  .flip-b{background:linear-gradient(135deg,#16243a,#1b2c12);transform:rotateY(180deg)}
+  .flip-f b{font-size:1.05rem;color:#fff5e6}
+  .flip-f small{color:var(--muted);margin-top:8px}
+  .flip-b p{margin:0;font-size:.92rem;color:#eafff0}
+
+  /* post-its */
+  .postit{background:#ffe9a8;color:#4a3a06;border-radius:6px;padding:14px 16px;margin:0;
+    box-shadow:3px 5px 14px #00000055;transform:rotate(-1.2deg);font-size:.95rem;line-height:1.45}
+  .postit b{color:#7a5c00}
+  .postgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px;margin:6px 0 18px}
+  .postgrid .postit:nth-child(even){transform:rotate(1.1deg)}
+
+  /* pegadinha */
+  .alert{background:var(--redbg);border:1px solid #6e242c;border-left:6px solid var(--warn);
+    border-radius:12px;padding:13px 16px;margin:10px 0;font-size:.95rem}
+  .alert b{color:var(--warn)}
+
+  /* linha do tempo */
+  .tl{border-left:3px solid var(--gold2);margin:6px 0 18px;padding-left:18px}
+  .tl .ev{position:relative;margin-bottom:14px}
+  .tl .ev::before{content:'';position:absolute;left:-25px;top:4px;width:12px;height:12px;border-radius:50%;background:var(--gold)}
+  .tl .ev.ru::before{background:var(--red)}
+  .tl .ano{font-weight:800;color:var(--gold)}
+  .tl .ev.ru .ano{color:#ff8f8f}
+
+  /* glossário */
+  .glo{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:6px 18px;margin-bottom:18px}
+  .glo dt{font-weight:800;color:var(--gold);margin-top:12px}
+  .glo dd{margin:2px 0 0;color:#e9e0d2;font-size:.95rem}
+
+  /* quiz relâmpago */
+  .relampago{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin-top:10px}
+  .relampago h2{margin-top:0}
+  .rq{margin:12px 0;padding:12px 0;border-bottom:1px dashed var(--line)}
+  .rq p{font-weight:700;margin:.2em 0 .5em}
+  .ro{display:block;background:#221a2c;border:1px solid var(--line);border-radius:9px;padding:8px 12px;margin:6px 0;cursor:pointer}
+  .ro:hover{border-color:var(--gold)}
+  .ro.sel{border-color:var(--gold);background:#2a2016}
+  .ro.cert{border-color:var(--green);background:#173a24;color:#d6ffe9}
+  .ro.err{border-color:var(--warn);background:#2a1115;color:#ffd5d5}
+  .placar{font-weight:800;color:var(--gold);margin-top:10px;font-size:1.05rem}
+
+  .salvar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;background:var(--panel);
+    border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:8px 0 16px}
+  .salvar .info{color:var(--muted);font-size:.84rem;flex:1 1 200px}
+  button{font-family:inherit;cursor:pointer;border:none;border-radius:10px;padding:9px 14px;
+    font-size:.92rem;font-weight:700;color:#2a0f06;background:linear-gradient(90deg,var(--gold),#f0d27a)}
+  button.ghost{background:#241a2c;color:var(--txt);border:1px solid var(--line)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="h-side h-ru">
+      <svg class="rays" viewBox="0 0 300 200" preserveAspectRatio="none"><g stroke="#ffe9cf" stroke-width="2" fill="none">
+        <path d="M0 30 H120 V90 H230"/><path d="M0 150 H90 V100"/></g></svg>
+      <span class="star">★</span>
+      <h2>🚩 LADO VERMELHO</h2>
+      <small>Rússia · Revolução e URSS (Cap. 8)</small>
+    </div>
+    <div class="h-divide"></div>
+    <div class="h-side h-us">
+      <svg class="rays" viewBox="0 0 300 200" preserveAspectRatio="none"><g stroke="#e3b94a" stroke-width="2" fill="none">
+        <path d="M150 200 L40 40"/><path d="M150 200 L150 30"/><path d="M150 200 L260 40"/><path d="M150 200 L300 120"/><path d="M150 200 L0 120"/></g></svg>
+      <h2 style="text-align:right">🎷 LADO <span class="accent">DOURADO</span></h2>
+      <small style="display:block;text-align:right">EUA · Anos 20 e Crise de 1929 (Cap. 9)</small>
+    </div>
+  </header>
+
+  <div class="htitle">
+    <span class="chip">⭐ Dois Mundos em Crise · Resumo</span>
+    <h1>Resumo Interativo — História 9º ano</h1>
+    <p class="sub"><b>Avaliação de 16/06</b> — Cap. 8 (Revolução Russa) e Cap. 9 (Crise de 1929). Toque nas abas, vire os cards e teste-se no quiz relâmpago no fim.</p>
+  </div>
+
+  <div class="salvar">
+    <div class="info" id="saveinfo">Seu progresso no quiz relâmpago é salvo sozinho neste navegador.</div>
+    <button class="ghost" onclick="exportar()">📥 Exportar</button>
+    <button class="ghost" onclick="document.getElementById('imp').click()">📤 Importar</button>
+    <input id="imp" type="file" accept="application/json" style="display:none" onchange="importar(event)">
+    <button class="ghost" onclick="zerar()">🗑️ Zerar</button>
+  </div>
+
+  <div class="tabs">
+    <div class="tab ru on" onclick="abrir('russia',this)">🚩 Rússia (Cap. 8)</div>
+    <div class="tab us" onclick="abrir('eua',this)">🎷 EUA (Cap. 9)</div>
+    <div class="tab us" onclick="abrir('relampago',this)" style="border-color:var(--gold2)">⚡ Quiz Relâmpago</div>
+  </div>
+
+  <!-- ===================== RÚSSIA ===================== -->
+  <section class="secao ru on" id="russia">
+    <h2 class="titsec">🚩 A Rússia: do czar à URSS</h2>
+
+    <div class="grid">
+      <div class="card ru"><h3>A Rússia atrasada</h3>
+        <p>Maior país do mundo, mas <span class="key">atrasado</span>: governado pelo <span class="key">czar</span> (imperador), com 80% de <span class="key">camponeses</span> em servidão.</p>
+        <p><b>Alexandre II</b> aboliu a servidão em <b>1861</b> para modernizar.</p></div>
+      <div class="card ru"><h3>Bolcheviques e Lênin</h3>
+        <p>Do partido marxista <span class="key">POSDR</span> saíram os <span class="key">bolcheviques</span> ("maioria"), liderados por <b>Lênin</b>.</p>
+        <p>Queriam uma revolução para implantar o <b>socialismo</b>.</p></div>
+      <div class="card ru"><h3>Nicolau II</h3>
+        <p>O <span class="key">último czar</span>, da dinastia <b>Romanov</b>. Autoritário, não entendeu as mudanças e levou o país ao colapso.</p></div>
+      <div class="card ru"><h3>1905: o estopim</h3>
+        <p>Derrota na <b>Guerra Russo-Japonesa</b> + o <span class="key">Domingo Sangrento</span> (tropas atiram no povo) acabaram com a confiança no czar.</p>
+        <p>Nasceram os <span class="key">sovietes</span> (conselhos de operários, camponeses e soldados).</p></div>
+      <div class="card ru"><h3>As duas revoluções de 1917</h3>
+        <p><span class="key">Fevereiro</span>: cai o czar → Governo Provisório x Soviete.</p>
+        <p><span class="key">Outubro</span>: bolcheviques tomam o poder → 1º regime socialista.</p></div>
+      <div class="card ru"><h3>Governo de Lênin → URSS</h3>
+        <p>Decretos de <b>Paz</b> e da <b>Terra</b>; Guerra Civil (Vermelhos x Brancos); <span class="key">NEP</span> (1921, abertura econômica) e a criação da <span class="key">URSS</span> em <b>1922</b>.</p></div>
+    </div>
+
+    <h3 style="color:#ff9a9a">🔄 Vire os cards: quem é quem na Revolução</h3>
+    <div class="flipgrid">
+      <div class="flip" onclick="this.classList.toggle('on')"><div class="flip-in">
+        <div class="flip-f"><b>Lênin</b><small>(toque para virar)</small></div>
+        <div class="flip-b"><p>Líder dos bolcheviques. Lançou as Teses de Abril ("Paz, Pão e Terra") e comandou a Revolução de Outubro.</p></div></div></div>
+      <div class="flip" onclick="this.classList.toggle('on')"><div class="flip-in">
+        <div class="flip-f"><b>Trótski</b><small>(toque para virar)</small></div>
+        <div class="flip-b"><p>Juntou-se aos bolcheviques em 1917 e foi presidente do Soviete de Petrogrado.</p></div></div></div>
+      <div class="flip" onclick="this.classList.toggle('on')"><div class="flip-in">
+        <div class="flip-f"><b>Nicolau II</b><small>(toque para virar)</small></div>
+        <div class="flip-b"><p>Último czar (Romanov). Abdicou na Revolução de Fevereiro de 1917.</p></div></div></div>
+      <div class="flip" onclick="this.classList.toggle('on')"><div class="flip-in">
+        <div class="flip-f"><b>Sovietes</b><small>(toque para virar)</small></div>
+        <div class="flip-b"><p>Conselhos de autogestão de operários, camponeses e soldados. Lema: "Todo poder aos sovietes!".</p></div></div></div>
+    </div>
+
+    <h3 style="color:#ff9a9a">📌 Dicas de prova</h3>
+    <div class="postgrid">
+      <div class="postit"><b>Duas revoluções!</b> Em 1917 houve a de <b>Fevereiro</b> (cai o czar) e a de <b>Outubro</b> (bolcheviques no poder). Não confunda.</div>
+      <div class="postit"><b>Lemas de Lênin:</b> "Paz, Pão e Terra" e "Todo poder aos sovietes!". Decoram fácil e caem sempre.</div>
+      <div class="postit"><b>NEP ≠ fim do autoritarismo.</b> Liberou um pouco o capitalismo, mas continuou tendo só um partido.</div>
+    </div>
+
+    <div class="alert"><b>⚠️ Pegadinha:</b> Quem aboliu a servidão (1861) foi <b>Alexandre II</b>. Quem caiu na revolução (1917) foi <b>Nicolau II</b>. São czares diferentes!</div>
+    <div class="alert"><b>⚠️ Pegadinha:</b> A <b>URSS</b> nasceu em <b>1922</b> (Rússia + outros países, capital Moscou). Não é a mesma data da Revolução de 1917.</div>
+
+    <h3 style="color:#ff9a9a">📅 Linha do tempo da Rússia</h3>
+    <div class="tl">
+      <div class="ev ru"><span class="ano">1861</span> — Alexandre II abole a servidão.</div>
+      <div class="ev ru"><span class="ano">1905</span> — Domingo Sangrento e os primeiros sovietes.</div>
+      <div class="ev ru"><span class="ano">1914</span> — Rússia entra na Primeira Guerra (despreparada).</div>
+      <div class="ev ru"><span class="ano">Fev/1917</span> — Revolução de Fevereiro: cai o czar Nicolau II.</div>
+      <div class="ev ru"><span class="ano">Out/1917</span> — Revolução de Outubro: bolcheviques no poder.</div>
+      <div class="ev ru"><span class="ano">1921</span> — NEP (Nova Política Econômica).</div>
+      <div class="ev ru"><span class="ano">1922</span> — Criação da URSS.</div>
+    </div>
+  </section>
+
+  <!-- ===================== EUA ===================== -->
+  <section class="secao us" id="eua">
+    <h2 class="titsec">🎷 EUA: dos anos loucos à Grande Depressão</h2>
+
+    <div class="grid">
+      <div class="card us"><h3>Anos loucos (1920)</h3>
+        <p>EUA = maior <span class="key">credor e produtor</span> do mundo. Jazz, charleston, festas e o <span class="key">American way of life</span> (consumo = felicidade).</p></div>
+      <div class="card us"><h3>Henry Ford</h3>
+        <p>Criou a <span class="key">linha de montagem</span> e o <b>Ford T</b>. Produção em massa barateou o carro (de 900 para 300 dólares).</p></div>
+      <div class="card us"><h3>Consumo a crédito</h3>
+        <p>Vender mais exigia <span class="key">crédito</span> e propaganda. Perigo: máquinas geram desemprego e o crédito fácil gera <b>endividamento</b>.</p></div>
+      <div class="card us"><h3>A bolsa e a especulação</h3>
+        <p>Muita gente comprava <span class="key">ações</span> para enriquecer. O preço subia mais que as empresas: <span class="key">especulação</span>.</p></div>
+      <div class="card us"><h3>A quebra de 1929</h3>
+        <p>Em <b>outubro de 1929</b> a <span class="key">bolsa de Nova York quebrou</span>. Junto: a <b>crise de superprodução</b>.</p></div>
+      <div class="card us"><h3>Grande Depressão</h3>
+        <p>Falência de empresas e bancos; desemprego mundial. Surgem as <span class="key">hoovervilles</span>. Só a <b>URSS</b> não foi atingida.</p></div>
+      <div class="card us"><h3>New Deal</h3>
+        <p><b>Roosevelt</b> rompe com o liberalismo: <span class="key">Estado intervém</span> na economia, com obras públicas e supervisão dos bancos.</p></div>
+    </div>
+
+    <h3 style="color:var(--gold)">🔄 Vire os cards: ideias-chave</h3>
+    <div class="flipgrid">
+      <div class="flip" onclick="this.classList.toggle('on')"><div class="flip-in">
+        <div class="flip-f"><b>American way of life</b><small>(toque para virar)</small></div>
+        <div class="flip-b"><p>Estilo de vida baseado no consumo: ter mais bens seria sinal de felicidade.</p></div></div></div>
+      <div class="flip" onclick="this.classList.toggle('on')"><div class="flip-in">
+        <div class="flip-f"><b>Especulação</b><small>(toque para virar)</small></div>
+        <div class="flip-b"><p>Quando o preço das ações sobe muito mais do que a empresa realmente cresce. Virou aposta.</p></div></div></div>
+      <div class="flip" onclick="this.classList.toggle('on')"><div class="flip-in">
+        <div class="flip-f"><b>Hoovervilles</b><small>(toque para virar)</small></div>
+        <div class="flip-b"><p>Bairros de casas precárias dos desempregados. Nome vem do presidente Hoover.</p></div></div></div>
+      <div class="flip" onclick="this.classList.toggle('on')"><div class="flip-in">
+        <div class="flip-f"><b>New Deal</b><small>(toque para virar)</small></div>
+        <div class="flip-b"><p>Plano de Roosevelt: o Estado intervém na economia para salvar o capitalismo. Obras públicas e bancos vigiados.</p></div></div></div>
+    </div>
+
+    <h3 style="color:var(--gold)">📌 Dicas de prova</h3>
+    <div class="postgrid">
+      <div class="postit"><b>Liberalismo x intervenção.</b> Antes da crise: Estado fora da economia. Com o New Deal: Estado dentro da economia.</div>
+      <div class="postit"><b>Hoover x Roosevelt.</b> Hoover não agiu (liberal); Roosevelt agiu (New Deal). Não troque os dois!</div>
+      <div class="postit"><b>O New Deal salvou o capitalismo</b> — NÃO transformou os EUA em país socialista.</div>
+    </div>
+
+    <div class="alert"><b>⚠️ Pegadinha:</b> O único bloco que <b>não</b> sofreu com a crise de 1929 foi a <b>URSS</b>, porque não seguia o liberalismo econômico.</div>
+    <div class="alert"><b>⚠️ Pegadinha:</b> A quebra de 1929 teve <b>duas crises juntas</b>: a de <b>superprodução</b> (produtos demais) e a do <b>mercado de ações</b> (especulação).</div>
+
+    <h3 style="color:var(--gold)">📅 Linha do tempo dos EUA</h3>
+    <div class="tl">
+      <div class="ev"><span class="ano">1919</span> — Pós-guerra: EUA isolacionista, recusa a Liga das Nações.</div>
+      <div class="ev"><span class="ano">Anos 1920</span> — "Anos loucos": prosperidade e American way of life.</div>
+      <div class="ev"><span class="ano">24 e 29/out/1929</span> — Quebra da Bolsa de Nova York.</div>
+      <div class="ev"><span class="ano">Início dos anos 1930</span> — Grande Depressão e hoovervilles.</div>
+      <div class="ev"><span class="ano">1932-33</span> — Roosevelt eleito; começa o New Deal.</div>
+    </div>
+
+    <h3 style="color:var(--gold)">📖 Glossário rápido (os dois capítulos)</h3>
+    <dl class="glo">
+      <dt>Czar</dt><dd>"Imperador", em russo. Governava a Rússia de forma autoritária.</dd>
+      <dt>Servidão</dt><dd>Trabalho do camponês preso à terra, sem ser dono dela.</dd>
+      <dt>Soviete</dt><dd>Conselho de autogestão de operários, camponeses e soldados.</dd>
+      <dt>Bolcheviques</dt><dd>"Maioria"; grupo de Lênin que defendia a revolução socialista.</dd>
+      <dt>NEP</dt><dd>Nova Política Econômica: abertura parcial ao capitalismo (1921).</dd>
+      <dt>Ação</dt><dd>Pedacinho do capital de uma empresa, negociado na bolsa.</dd>
+      <dt>Especulação</dt><dd>Comprar ações só para revender mais caro, sem ligação real com a produção.</dd>
+      <dt>Liberalismo econômico</dt><dd>Ideia de que o Estado não deve interferir na economia.</dd>
+      <dt>New Deal</dt><dd>Plano de Roosevelt com forte intervenção do Estado na economia.</dd>
+    </dl>
+  </section>
+
+  <!-- ===================== QUIZ RELÂMPAGO ===================== -->
+  <section class="secao us" id="relampago">
+    <div class="relampago">
+      <h2>⚡ Quiz Relâmpago — 8 perguntas rápidas</h2>
+      <p style="color:var(--muted);font-size:.92rem">Responda para fixar. As respostas aparecem na hora. Não vale como o Quiz oficial — é só para treinar!</p>
+      <div id="rbox"></div>
+      <div class="placar" id="placar"></div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+function abrir(id,el){
+  document.querySelectorAll('.secao').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+const RELAMPAGO=[
+ {e:"Quem aboliu a servidão na Rússia em 1861?",o:["Nicolau II","Alexandre II","Lênin","Trótski"],c:1,
+  fb:"Foi Alexandre II. Nicolau II foi o último czar, que caiu em 1917."},
+ {e:"O que significa a palavra 'bolchevique'?",o:["minoria","czar","maioria","soviete"],c:2,
+  fb:"'Bolchevique' quer dizer 'maioria', em russo. Era o grupo de Lênin."},
+ {e:"Qual episódio de 1905 acabou com a confiança do povo no czar?",o:["Revolução de Outubro","Domingo Sangrento","New Deal","Tratado de Brest-Litovski"],c:1,
+  fb:"O Domingo Sangrento (1905): tropas do czar atiraram numa marcha pacífica."},
+ {e:"Quais eram os lemas das Teses de Abril de Lênin?",o:["'Ordem e Progresso'","'Liberdade, Igualdade, Fraternidade'","'Paz, Pão e Terra' e 'Todo poder aos sovietes!'","'American way of life'"],c:2,
+  fb:"'Paz, Pão e Terra' e 'Todo poder aos sovietes!'."},
+ {e:"Em que ano nasceu a URSS?",o:["1905","1917","1922","1929"],c:2,
+  fb:"A URSS foi criada em 1922, com capital em Moscou."},
+ {e:"O 'American way of life' era um estilo de vida baseado em quê?",o:["no consumo","na servidão","no socialismo","no isolacionismo"],c:0,
+  fb:"No consumo: quanto mais bens, mais 'feliz' a pessoa seria."},
+ {e:"O que aconteceu na bolsa de Nova York em outubro de 1929?",o:["ela foi criada","ela quebrou","ela foi estatizada","ela mudou para Chicago"],c:1,
+  fb:"A bolsa quebrou: ações sem comprador e perda de 14 bilhões de dólares."},
+ {e:"Qual era a grande novidade do New Deal de Roosevelt?",o:["o Estado intervir na economia","acabar com os bancos","tornar os EUA socialistas","sair da economia mundial"],c:0,
+  fb:"O Estado passou a intervir na economia, rompendo com o liberalismo — para salvar o capitalismo."}
+];
+
+const KEY='hist_9_cap89_resumo_v1';
+let estado={resp:{},ts:null};
+try{const s=localStorage.getItem(KEY);if(s)estado=JSON.parse(s);}catch(e){}
+function salvar(){estado.ts=new Date().toISOString();localStorage.setItem(KEY,JSON.stringify(estado));pintarInfo();}
+function pintarInfo(){const el=document.getElementById('saveinfo');
+  if(estado.ts){const d=new Date(estado.ts);
+    el.innerHTML='💾 Último salvamento: <b>'+d.toLocaleDateString('pt-BR')+' '+d.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})+'</b>';}}
+
+function renderR(){
+  const box=document.getElementById('rbox');
+  box.innerHTML=RELAMPAGO.map((q,i)=>{
+    const sel=estado.resp[i];
+    const opts=q.o.map((o,k)=>{
+      let cls='ro';
+      if(sel!==undefined){ if(k===q.c)cls+=' cert'; else if(sel===k)cls+=' err'; }
+      else if(sel===k)cls+=' sel';
+      return `<span class="${cls}" onclick="resp(${i},${k})">${o}</span>`;
+    }).join('');
+    const fb=(sel!==undefined)?`<div style="color:var(--muted);font-size:.9rem;margin-top:6px">💡 ${q.fb}</div>`:'';
+    return `<div class="rq"><p>${i+1}. ${q.e}</p>${opts}${fb}</div>`;
+  }).join('');
+  placar();pintarInfo();
+}
+function resp(i,k){if(estado.resp[i]!==undefined)return;estado.resp[i]=k;salvar();renderR();}
+function placar(){
+  const n=Object.keys(estado.resp).length;
+  let ac=0;RELAMPAGO.forEach((q,i)=>{if(estado.resp[i]===q.c)ac++;});
+  const p=document.getElementById('placar');
+  if(n===0){p.textContent='';return;}
+  p.textContent='Você acertou '+ac+' de '+n+' respondidas'+(n===RELAMPAGO.length?' — terminou! 🎉':'');
+}
+function exportar(){const blob=new Blob([JSON.stringify(estado,null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='progresso-resumo-historia.json';a.click();}
+function importar(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{estado=JSON.parse(r.result);salvar();renderR();alert('Importado! ✅');}catch(e){alert('Arquivo inválido.');}};
+  r.readAsText(f);}
+function zerar(){if(confirm('Apagar o progresso do quiz relâmpago?')){estado={resp:{},ts:null};localStorage.removeItem(KEY);renderR();}}
+renderR();
+</script>
+</body>
+</html>
